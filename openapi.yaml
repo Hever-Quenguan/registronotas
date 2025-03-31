@@ -1,0 +1,163 @@
+openapi: 3.0.0
+info:
+  title: API de Registro de Notas
+  description: API REST para gestionar notas de estudiantes
+  version: 1.0.0
+servers:
+  - url: http://localhost:8000
+    description: Servidor local
+paths:
+  /estudiantes:
+    get:
+      summary: Obtener la lista de estudiantes
+      responses:
+        '200':
+          description: Lista de estudiantes recuperada exitosamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    nombre:
+                      type: string
+                    correo:
+                      type: string
+        '500':
+          description: Error interno del servidor
+    post:
+      summary: Agregar un nuevo estudiante
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nombre:
+                  type: string
+                correo:
+                  type: string
+      responses:
+        '201':
+          description: Estudiante creado exitosamente
+        '400':
+          description: Solicitud incorrecta (por ejemplo, campos faltantes)
+        '500':
+          description: Error interno del servidor
+  
+  /notas:
+    get:
+      summary: Obtener la lista de notas
+      responses:
+        '200':
+          description: Lista de notas recuperada exitosamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    estudiante_id:
+                      type: integer
+                    nota:
+                      type: number
+                      format: float
+                    fecha:
+                      type: string
+                      format: date
+        '500':
+          description: Error interno del servidor
+
+    post:
+      summary: Agregar una nueva nota
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                estudiante_id:
+                  type: integer
+                nota:
+                  type: number
+                  format: float
+                fecha:
+                  type: string
+                  format: date
+      responses:
+        '201':
+          description: Nota creada exitosamente
+        '400':
+          description: Solicitud incorrecta (por ejemplo, campos faltantes o valor de nota inválido)
+        '500':
+          description: Error interno del servidor
+
+  /estudiantes/{id}:
+    get:
+      summary: Obtener los detalles de un estudiante específico
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID del estudiante
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Estudiante encontrado exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  nombre:
+                    type: string
+                  correo:
+                    type: string
+        '404':
+          description: Estudiante no encontrado
+        '500':
+          description: Error interno del servidor
+
+  /notas/{id}:
+    get:
+      summary: Obtener los detalles de una nota específica
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID de la nota
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Nota encontrada exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  estudiante_id:
+                    type: integer
+                  nota:
+                    type: number
+                    format: float
+                  fecha:
+                    type: string
+                    format: date
+        '404':
+          description: Nota no encontrada
+        '500':
+          description: Error interno del servidor
