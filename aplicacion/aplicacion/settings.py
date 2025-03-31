@@ -20,7 +20,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-x(fd&h#rl-&q@v_a@=x&)3y2ix#%vlc_2^29yzqdg9u#ipa9)h'
+SECRET_KEY = 'django-insecure-v$#=rcurzw3h=zb-_argj5$=n(0m+j6g&17%(b#4b4s5^zg&2r'
+CORS_ALLOW_ALL_ORIGINS = True
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -37,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    
     # Django REST Framework
     'rest_framework',
 
@@ -47,6 +48,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -90,7 +92,6 @@ DATABASES = {
         'PORT': '5432',
     }
 }
-
 
 
 # Password validation
