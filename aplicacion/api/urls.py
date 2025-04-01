@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import DocumentoRegistrationView, CursoRegistrationView,EstudiantesRegistrationView,ProfesorRegistrationView
-from .views import ClaseRegistrationView
+from .views import ClaseRegistrationView, EvaluacionRegistrationView, NotaRegistrationView, AsistenciaRegistrationView
 
 from django.conf import settings
 from django.conf.urls.static import static
@@ -11,7 +11,9 @@ urlpatterns = [
     path('register/estudiantes/', EstudiantesRegistrationView.as_view(), name='estudiante-register'),
     path('register/profesor/', ProfesorRegistrationView.as_view(), name='profesor-register'),
     path('register/clase/', ClaseRegistrationView.as_view(), name='clase-register'),
-
+    path('register/evaluacion/', EvaluacionRegistrationView.as_view(), name='evaluacion-register'),
+    path('register/nota/', NotaRegistrationView.as_view(), name='nota-register'),
+    path('register/asistencia/', AsistenciaRegistrationView.as_view(), name='asistencia-register'),
     
 
   

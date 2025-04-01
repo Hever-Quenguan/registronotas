@@ -10,8 +10,8 @@ class ClaseSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         # Crear el usuario y guardar en la db
-        cla = clase(
-            nombre=validated_data['nombre'],
+        cla = Clase(
+            curso=validated_data['curso'],
             profesor=validated_data['profesor'],
             horario=validated_data['horario'],
             semestre=validated_data['semestre'],
