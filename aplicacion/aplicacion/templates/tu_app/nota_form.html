@@ -1,4 +1,3 @@
-
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,19 +10,23 @@
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card p-4">
-                    <h2 class="text-center mb-4">Registrar Evaluación</h2>
+                    <h2 class="text-center mb-4">Registrar Asistencia</h2>
                     <form method="post">
                         {% csrf_token %}
-                        <label for="clase">Clase:</label>
-                      <select name="clase">
-                          {% for clase in clases %}
-                            <option value="{{ clase.id }}">{{ clase.curso.nombre }} - {{ clase.fecha }}</option>
+                        <label for="evaluacion">Evaluación:</label>
+                      <select name="evaluacion">
+                          {% for eval in evaluaciones %}
+                            <option value="{{ eval.id }}">{{ eval.nombre }}</option>
                           {% endfor %}
                         </select><br/>
-                      <label for="nombre">Nombre de Evaluación:</label>
-                      <input name="nombre" required="" type="text"/><br/>
-                      <label for="fecha">Fecha:</label>
-                      <input name="fecha" type="date"/><br/>
+                      <label for="estudiante">Estudiante:</label>
+                      <select name="estudiante">
+                          {% for estudiante in estudiantes %}
+                            <option value="{{ estudiante.id }}">{{ estudiante.nombre }}</option>
+                          {% endfor %}
+                        </select><br/>
+                      <label for="valor">Nota:</label>
+                      <input max="10" min="0" name="valor" step="0.01" type="number"/><br/>
                       <button type="submit">Guardar</button>
                       </form>
                 </div>
@@ -33,3 +36,4 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
