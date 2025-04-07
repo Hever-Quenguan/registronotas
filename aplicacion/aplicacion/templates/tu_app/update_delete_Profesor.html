@@ -1,0 +1,25 @@
+<!-- profesor_form.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>...</head>
+<body>
+<div class="container mt-5">...</div>
+<form method="post">
+    {% csrf_token %}
+    <input type="hidden" name="id" value="{{ profesor.id }}">
+    <label for="nombre">Nombre:</label>
+    <input name="nombre" type="text" class="form-control" value="{{ profesor.nombre }}" required>
+
+    <label for="apellido" class="mt-2">Apellido:</label>
+    <input name="apellido" type="text" class="form-control" value="{{ profesor.apellido }}" required>
+
+    <label for="especialidad" class="mt-2">Especialidad:</label>
+    <input name="especialidad" type="text" class="form-control" value="{{ profesor.especialidad }}">
+
+    <div class="d-flex justify-content-between mt-4">
+        <button type="submit" name="action" value="update" class="btn btn-primary">Actualizar</button>
+        <button type="submit" name="action" value="delete" class="btn btn-danger">Eliminar</button>
+    </div>
+</form>
+</div></div></div></body>
+</html>
