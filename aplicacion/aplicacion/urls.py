@@ -15,8 +15,26 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.urls import path, include 
+from rest_framework import permissions
 from django.urls import path
+from drf_spectacular.views import SpectacularSwaggerView, SpectacularAPIView
+
+
+
+
+
+# Configuración de Swagger
+
+# schema_view = get_swagger_view(title='Pastebin API')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/', include('api.urls')),  # Ruta para el registro
+    path('schema/', SpectacularAPIView.as_view(), name='schema'),
+    path('swagger/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+
+  
 ]
+
+
