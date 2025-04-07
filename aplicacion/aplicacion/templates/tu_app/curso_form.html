@@ -10,15 +10,13 @@
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card p-4">
-                    <h2 class="text-center mb-4">Registrar profesor</h2>
+                    <h2 class="text-center mb-4">Registrar Curso</h2>
                     <form method="post">
                         {% csrf_token %}
-                        <label for="nombre">Nombre:</label>
+                        <label for="nombre">Nombre del Curso:</label>
                       <input name="nombre" required="" type="text"/><br/>
-                      <label for="apellido">Apellido:</label>
-                      <input name="apellido" required="" type="text"/><br/>
-                      <label for="especialidad">Especialidad:</label>
-                      <input name="especialidad" type="text"/><br/>
+                      <label for="descripcion">Descripción:</label>
+                      <textarea name="descripcion"></textarea><br/>
                       <button type="submit">Guardar</button>
                       </form>
                 </div>
