@@ -1,0 +1,28 @@
+## Descripción del Proyecto
+Esta API REST permite gestionar el registro de 
+notas de estudiantes. 
+Fue desarrollada utilizando FastAPI 
+y utiliza PostgreSQL como base de datos.
+
+## Instrucciones de Despliegue
+
+### Prerrequisitos
+- Tener instalado Docker y Docker Compose
+
+### Pasos para desplegar la API
+1. Clonar el repositorio:
+   ```sh
+   git clone [URL del repositorio]
+   cd registronotas
+   ```
+2. Construir y levantar los contenedores con Docker Compose:
+   ```sh
+   docker-compose up --build
+   ```
+3. Acceder a la documentación de la API en Swagger:
+   - [http://localhost:8000/docs](http://localhost:8000/docs) (ajustar puerto si es necesario)
+
+## Documentación de la API
+La API está documentada con Swagger y accesible desde el entorno local una vez desplegada.
+### Capturas de los Endpoints
+![Capturas](image.png)

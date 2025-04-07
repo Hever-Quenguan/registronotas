@@ -1,0 +1,41 @@
+<!-- asistencia_form.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>...</head>
+<body>
+<div class="container mt-5">...</div>
+<form method="post">
+    {% csrf_token %}
+    <input type="hidden" name="id" value="{{ asistencia.id }}">
+    <label for="clase">Clase:</label>
+    <select name="clase" class="form-select">
+        {% for clase in clases %}
+        <option value="{{ clase.id }}" {% if clase.id == asistencia.clase.id %}selected{% endif %}>
+            {{ clase.curso.nombre }} - {{ clase.fecha }}
+        </option>
+        {% endfor %}
+    </select>
+
+    <label for="estudiante" class="mt-2">Estudiante:</label>
+    <select name="estudiante" class="form-select">
+        {% for estudiante in estudiantes %}
+        <option value="{{ estudiante.id }}" {% if estudiante.id == asistencia.estudiante.id %}selected{% endif %}>
+            {{ estudiante.nombre }}
+        </option>
+        {% endfor %}
+    </select>
+
+    <label for="estado" class="mt-2">Estado:</label>
+    <select name="estado" class="form-select">
+        <option value="Presente" {% if asistencia.estado == "Presente" %}selected{% endif %}>Presente</option>
+        <option value="Ausente" {% if asistencia.estado == "Ausente" %}selected{% endif %}>Ausente</option>
+        <option value="Tarde" {% if asistencia.estado == "Tarde" %}selected{% endif %}>Tarde</option>
+    </select>
+
+    <div class="d-flex justify-content-between mt-4">
+        <button type="submit" name="action" value="update" class="btn btn-primary">Actualizar</button>
+        <button type="submit" name="action" value="delete" class="btn btn-danger">Eliminar</button>
+    </div>
+</form>
+</div></div></div></body>
+</html>

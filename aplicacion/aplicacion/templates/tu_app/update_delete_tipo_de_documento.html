@@ -1,0 +1,19 @@
+<!-- tipodocumento_form.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>...</head>
+<body>
+<div class="container mt-5">...</div>
+<form method="post">
+    {% csrf_token %}
+    <input type="hidden" name="id" value="{{ tipo.id }}">
+    <label for="nombre">Nombre del Tipo de Documento:</label>
+    <input name="nombre" type="text" class="form-control" value="{{ tipo.nombre }}" required>
+
+    <div class="d-flex justify-content-between mt-4">
+        <button type="submit" name="action" value="update" class="btn btn-primary">Actualizar</button>
+        <button type="submit" name="action" value="delete" class="btn btn-danger">Eliminar</button>
+    </div>
+</form>
+</div></div></div></body>
+</html>
