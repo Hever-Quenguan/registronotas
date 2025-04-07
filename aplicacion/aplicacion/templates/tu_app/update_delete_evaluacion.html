@@ -1,31 +1,48 @@
 <!-- evaluacion_form.html -->
+
 <!DOCTYPE html>
 <html lang="es">
-<head>...</head>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <title>Editar o Eliminar Estudiante</title>
+</head>
 <body>
-<div class="container mt-5">...</div>
-<form method="post">
-    {% csrf_token %}
-    <input type="hidden" name="id" value="{{ evaluacion.id }}">
-    <label for="clase">Clase:</label>
-    <select name="clase" class="form-select">
-        {% for clase in clases %}
-        <option value="{{ clase.id }}" {% if clase.id == evaluacion.clase.id %}selected{% endif %}>
-            {{ clase.curso.nombre }} - {{ clase.fecha }}
-        </option>
-        {% endfor %}
-    </select>
-
-    <label for="nombre" class="mt-2">Nombre:</label>
-    <input name="nombre" type="text" class="form-control" value="{{ evaluacion.nombre }}" required>
-
-    <label for="fecha" class="mt-2">Fecha:</label>
-    <input name="fecha" type="date" class="form-control" value="{{ evaluacion.fecha|date:'Y-m-d' }}">
-
-    <div class="d-flex justify-content-between mt-4">
-        <button type="submit" name="action" value="update" class="btn btn-primary">Actualizar</button>
-        <button type="submit" name="action" value="delete" class="btn btn-danger">Eliminar</button>
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card p-4">
+          <h2 class="text-center mb-4">Editar evaluacion</h2>
+          <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="id" value="{{ evaluacion.id }}">
+            <label for="clase">Clase:</label>
+            <select name="clase" class="form-select">
+                {% for clase in clases %}
+                <option value="{{ clase.id }}" {% if clase.id == evaluacion.clase.id %}selected{% endif %}>
+                    {{ clase.curso.nombre }} - {{ clase.fecha }}
+                </option>
+                {% endfor %}
+            </select>
+        
+            <label for="nombre" class="mt-2">Nombre:</label>
+            <input name="nombre" type="text" class="form-control" value="{{ evaluacion.nombre }}" required>
+        
+            <label for="fecha" class="mt-2">Fecha:</label>
+            <input name="fecha" type="date" class="form-control" value="{{ evaluacion.fecha|date:'Y-m-d' }}">
+        
+            <div class="d-flex justify-content-between mt-4">
+                <button type="submit" name="action" value="update" class="btn btn-primary">Actualizar</button>
+                <button type="submit" name="action" value="delete" class="btn btn-danger">Eliminar</button>
+            </div>
+        </form>
+        </div>
+      </div>
     </div>
-</form>
-</div></div></div></body>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>
