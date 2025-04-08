@@ -139,7 +139,7 @@ class EstudiantesRegistrationView(APIView):
         try:
             estudiante = Estudiantes.objects.get(pk=pk)
         except Estudiantes.DoesNotExist:
-            return Response({"message": "Estudiante no encontrado"}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"message": "Estudiante no  encontrado"}, status=status.HTTP_404_NOT_FOUND)
 
         estudiante.delete()
         return Response({"message": "Estudiante eliminado exitosamente"}, status=status.HTTP_204_NO_CONTENT)
