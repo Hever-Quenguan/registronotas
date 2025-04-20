@@ -14,8 +14,13 @@ from pathlib import Path
 import os
 import dj_database_url
 
+# Leer el archivo .env
+
+from dotenv import load_dotenv
+load_dotenv() 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -28,7 +33,8 @@ CORS_ALLOW_ALL_ORIGINS = True
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0']
+
 
 
 # Application definition
@@ -87,17 +93,17 @@ WSGI_APPLICATION = 'aplicacion.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    #     'NAME': 'notas',
-    #     'USER': 'postgres',
-    #     'PASSWORD': '1234',
-    #     'HOST': '127.0.0.1',
-    #     'PORT': '5432',
-   
-
-    # }
-    'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
+      'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.getenv('POSTGRES_DB', 'notas'),
+        'USER': os.getenv('POSTGRES_USER', 'postgres'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD', '1234'),
+        'HOST': os.getenv('POSTGRES_HOST', 'db'),  # 🔥 OJO AQUÍ
+        'PORT': os.getenv('POSTGRES_PORT', '5432'),
+    }
+    #'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
+    
+    
 }
 
 
