@@ -4,6 +4,8 @@ from .views import ClaseRegistrationView, EvaluacionRegistrationView, NotaRegist
 
 from django.conf import settings
 from django.conf.urls.static import static
+from django.urls import path
+from aplicacion.views import vista_protegida
 
 urlpatterns = [
     path('register/documento/', DocumentoRegistrationView.as_view(), name='documento-register'),
@@ -29,4 +31,6 @@ urlpatterns = [
     
     path('register/asistencia/', AsistenciaRegistrationView.as_view(), name='asistencia-register'),
     path('asistencia/', AsistenciaRegistrationView.as_view(), name='asistencia-list'),
+
+    path('protegida/', vista_protegida),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

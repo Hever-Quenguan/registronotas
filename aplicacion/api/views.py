@@ -11,6 +11,13 @@ from .serializers.evaluacionser import EvaluacionSerializer
 from .serializers.asistenciaser import AsistenciaSerializer
 from .models import TipoDocumento, Curso, Estudiantes, Profesor, Clase, Nota, Evaluacion, Asistencia
 from drf_spectacular.utils import extend_schema
+from django.http import JsonResponse
+
+def vista_protegida(request):
+    if not request.keycloak_user:
+        return JsonResponse({"detail": "No autorizado"}, status=401)
+
+    return JsonResponse({"mensaje": f"Hola {request.keycloak_user['preferred_username']}!"})
 
 # Documento
 @extend_schema(tags=['DOcumento'])
