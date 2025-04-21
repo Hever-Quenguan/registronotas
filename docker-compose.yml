@@ -23,6 +23,7 @@ services:
       - db
     environment:
       - DATABASE_URL=postgres://postgres:1234@db:5432/notas
+  
   keycloak:
     image: quay.io/keycloak/keycloak:24.0.1
     environment:
@@ -34,3 +35,4 @@ services:
 
 volumes:
   pg_data:
+  keycloak_data:
