@@ -13,12 +13,6 @@ from .models import TipoDocumento, Curso, Estudiantes, Profesor, Clase, Nota, Ev
 from drf_spectacular.utils import extend_schema
 from django.http import JsonResponse
 
-def vista_protegida(request):
-    if not request.keycloak_user:
-        return JsonResponse({"detail": "No autorizado"}, status=401)
-
-    return JsonResponse({"mensaje": f"Hola {request.keycloak_user['preferred_username']}!"})
-
 # Documento
 @extend_schema(tags=['DOcumento'])
 class DocumentoRegistrationView(APIView):
