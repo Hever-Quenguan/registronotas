@@ -32,5 +32,6 @@ urlpatterns = [
     path('register/asistencia/', AsistenciaRegistrationView.as_view(), name='asistencia-register'),
     path('asistencia/', AsistenciaRegistrationView.as_view(), name='asistencia-list'),
 
+
     path('protegida/', vista_protegida),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
