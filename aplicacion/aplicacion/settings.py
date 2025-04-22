@@ -54,7 +54,37 @@ INSTALLED_APPS = [
     # Tu app
     'api',
     'corsheaders',  # Habilitar CORS
+
+    # Autenticación con Keycloak
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.openid_connect',
 ]
+
+SITE_ID = 1
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+SOCIALACCOUNT_PROVIDERS = {
+    'openid_connect': {
+        'SERVERS': {
+            'keycloak': {
+                'CLAIMS_ENDPOINT': 'http://localhost:8080/realms/NotasRealm/protocol/openid-connect/userinfo',
+                'ISSUER': 'http://localhost:8080/realms/NotasRealm',
+                'AUTH_ENDPOINT': 'http://localhost:8080/realms/NotasRealm/protocol/openid-connect/auth',
+                'TOKEN_ENDPOINT': 'http://localhost:8080/realms/NotasRealm/protocol/openid-connect/token',
+                'USERINFO_ENDPOINT': 'http://localhost:8080/realms/NotasRealm/protocol/openid-connect/userinfo',
+                'CLIENT_ID': 'django-app',
+                'SECRET': 'aquí-tu-client-secret',
+            }
+        }
+    }
+}
 
 
 MIDDLEWARE = [
@@ -98,9 +128,19 @@ DATABASES = {
         'NAME': os.getenv('POSTGRES_DB', 'notas'),
         'USER': os.getenv('POSTGRES_USER', 'postgres'),
         'PASSWORD': os.getenv('POSTGRES_PASSWORD', '1234'),
-        'HOST': os.getenv('POSTGRES_HOST', 'db'),  # 🔥 OJO AQUÍ
+        'HOST': os.getenv('POSTGRES_HOST', 'db'),  
         'PORT': os.getenv('POSTGRES_PORT', '5432'),
     }
+
+
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #     'NAME': 'notas',  # Nombre de la base de datos
+    #     'USER': 'postgres',  # Usuario de la base de datos
+    #     'PASSWORD': '1234',  # Contraseña de la base de datos
+    #     'HOST': '127.0.0.1',  # Nombre del contenedor del servicio de PostgreSQL
+    #     'PORT': '5432',  # Puerto por defecto de PostgreSQL
+    # }
     #'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
     
     
