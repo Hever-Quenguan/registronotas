@@ -26,6 +26,13 @@ services:
       - DATABASE_URL=${DATABASE_URL}
     volumes:
       - .:/app
-
+  keycloak:
+    image: quay.io/keycloak/keycloak:24.0.1
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    ports:
+      - "8080:8080"
+    command: start-dev
 volumes:
   pg_data:
