@@ -1,0 +1,49 @@
+ZpPisa9J-0OO7GxONbLH9pDxVdXv5iApku1JM3b5Bdo	
+
+
+
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA2OW0jaTE78gLWiPDY1Q1cm+x383b0n5d/p4hk2FC+a2K9LHccIG8LvcQ4vzHngbzo1Z0Lbg/6U8CiAAZuasMKTEM08srW1f7niScsoJVwHYRXHEOwnt67DSGs8jaLn1/kxDBQG1A7w0xo3r6C36kvx5sTE+qn10KtzSgWpu6mp19xT+DDjH64s4/JE8s1zbR2UiZIlpUq8tOMMVq80ioz4TEbSP8ngESCIoX2QTSoJGEq7IzXQ9+V+TqCsjmiMPrBMp9rzMQTaIG9u358wbGoxnuj4PU4bIQtX8z+gNFeS4fmHrHvPPTNvj6lA29Xr3ZDrv7B9fKUwsUTNgqBYzhMwIDAQAB
+
+
+ID USER
+
+8ee6037f-9e71-4d0b-a608-7f8674ec9675
+
+CLIENT ID: notas-app
+clientSecret: M6SOK6oHalJ9D8Ek4DOn19jOxW7qupqm
+
+http://localhost:8080/realms/NotasRealm/protocol/openid-connect/token
+
+usuario 
+
+notashever:
+Id: 8ee6037f-9e71-4d0b-a608-7f8674ec9675
+pssw:hevernotas
+
+
+
+{{HOST-NAME}}/realms/{{relam}}/protocol/openid-connect/token
+{{HOST-NAME}}/realms/{{relam}}/users
+
+
+
+
+
+{
+	"attributes": {
+		"attribute key": "test value"
+	},
+	"credentials": [
+	    {
+		"temporary": false,
+		"type": "password",
+		"value": "TESTpSSWrd"
+	    }
+	],
+	"username": "django_admin",
+	"firstName": "Django",
+	"lastName": "Hever",
+	"email": "hevershtp@gmail.com",
+	"emailVerified": false,
+	"enabled": true
+}

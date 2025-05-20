@@ -26,7 +26,7 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=1234
       - POSTGRES_DB=notas
-      - POSTGRES_HOST=db     
+      - POSTGRES_HOST=db
       - POSTGRES_PORT=5432
     volumes:
       - .:/app
@@ -42,6 +42,9 @@ services:
       - "8080:8080"
     depends_on:
       - db
+    volumes:
+      - keycloak_data:/opt/keycloak/data
 
 volumes:
   pg_data:
+  keycloak_data:
