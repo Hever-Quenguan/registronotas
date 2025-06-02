@@ -6,7 +6,7 @@ class EvaluacionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Evaluacion
-        fields = ['clase', 'titulo', 'descripcion','fecha','ponderacion']  
+        fields = '__all__'
 
     def create(self, validated_data):
         # Crear el usuario y guardar en la db

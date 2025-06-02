@@ -14,8 +14,14 @@ from pathlib import Path
 import os
 import dj_database_url
 
+
+# Leer el archivo .env
+
+from dotenv import load_dotenv
+load_dotenv() 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -28,7 +34,8 @@ CORS_ALLOW_ALL_ORIGINS = True
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0']
+
 
 
 # Application definition
@@ -44,23 +51,62 @@ INSTALLED_APPS = [
     # Django REST Framework y Swagger
     'rest_framework',
     'drf_spectacular',
+    'oauth2_provider',
+    
 
     # Tu app
     'api',
     'corsheaders',  # Habilitar CORS
+
+    # Autenticación con Keycloak
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.openid_connect',
+    'mozilla_django_oidc',
 ]
+
+SITE_ID = 1
+
+AUTHENTICATION_BACKENDS = (
+    'mozilla_django_oidc.auth.OIDCAuthenticationBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+SOCIALACCOUNT_PROVIDERS = {
+    'openid_connect': {
+        'SERVERS': {
+            'keycloak': {
+                'CLAIMS_ENDPOINT': 'http://localhost:8080/realms/NotasRealm/protocol/openid-connect/userinfo',
+                'ISSUER': 'http://localhost:8080/realms/NotasRealm',
+                'AUTH_ENDPOINT': 'http://localhost:8080/realms/NotasRealm/protocol/openid-connect/auth',
+                'TOKEN_ENDPOINT': 'http://localhost:8080/realms/NotasRealm/protocol/openid-connect/token',
+                'USERINFO_ENDPOINT': 'http://localhost:8080/realms/NotasRealm/protocol/openid-connect/userinfo',
+                'CLIENT_ID': 'django-api',
+                'SECRET': '7doxFQtwfRRlqMvdaq8KDa2bBQX2cx9a',
+            }
+        }
+    }
+}
 
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
+
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    
+    # CORS debe ir antes de CommonMiddleware
+    'corsheaders.middleware.CorsMiddleware',
+    
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "allauth.account.middleware.AccountMiddleware",
 ]
+
 
 ROOT_URLCONF = 'aplicacion.urls'
 
@@ -87,19 +133,15 @@ WSGI_APPLICATION = 'aplicacion.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    #     'NAME': 'notas',
-    #     'USER': 'postgres',
-    #     'PASSWORD': '1234',
-    #     'HOST': '127.0.0.1',
-    #     'PORT': '5432',
-   
-
-    # }
-    'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
+      'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.getenv('POSTGRES_DB', 'notas'),
+        'USER': os.getenv('POSTGRES_USER', 'postgres'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD', '1234'),
+        'HOST': os.getenv('POSTGRES_HOST', 'db'),  
+        'PORT': os.getenv('POSTGRES_PORT', '5432'),
+    }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -144,5 +186,68 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'aplicacion.authentication.KeycloakJWTAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
+
+from datetime import timedelta
+
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    'ALGORITHM': 'RS256',
+    'SIGNING_KEY': None,
+    'VERIFYING_KEY': '''-----BEGIN CERTIFICATE-----
+MIICozCCAYsCBgGW6x3WzjANBgkqhkiG9w0BAQsFADAVMRMwEQYDVQQDDApOb3Rh
+c1JlYWxtMB4XDTI1MDUyMDAwMzM0M1oXDTM1MDUyMDAwMzUyM1owFTETMBEGA1UE
+AwwKTm90YXNSZWFsbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALAN
+BdYj48Rwo81eFHOin2U8sTwg3rtMq/+/PfLThZA+BuGk46UDFtpd0ymu6M6DgD8Z
+yCXHwY/nh5yTdldUtJIUjg0vaivvxwnrO5o7lRSVMcA0S4DdbpbDB9O7o1F5LcjJ
+W3ppk4ZVdfv3dWDtj/wCmTgwjj9w4zyOBQQh0bQwaGUlH/MAOJgjFn6eL+RI9iKw
+XiwBA9AWwTKTfMR7avqnsMh4vXG5g+cmy1HlSkr5TWWC4+2oQTkU5hehcCYurFyX
+BOvTBNlpLPGUgqmsZKZdAPEsOSjP57gBV7KEFur4EK7PTG6PVKWM/UCpZSBm4ckq
+kUGJMQITkFtOrnvHRNECAwEAATANBgkqhkiG9w0BAQsFAAOCAQEAEqAPwExVuxrc
+OHizLuHJYjLGLotMvy76Am4YResp35q3kN49nknO6ASclTmtGwFhRFXDF+UfhFVb
+wzAAr6E/q3qKuwREzca03A1bT37XnO3YrXQNw5UvgW1/fc0qwvjbFw8yDyWwaJj5
+u2uMstA93vKh0KoUxPzP6VmOF5puzojo4pcvUWudJGoDLnRCCZhguehHK+txb+F9
+h0uE73R/buL4z8lT52vm8+z3r2Fc9OUOXAA6Vo9wgryvMZlpjhtY9eX/hHdmLrBl
+8IF2CE861WS3u3ldduMp2iPZJWaOuycalt9cIrblJHN4Ik0PtMV65EuTxc+Xsh5C
+ltDvzrI1AQ==
+-----END CERTIFICATE-----''',
+    'AUDIENCE': 'account',
+    'ISSUER': 'http://localhost:8080/realms/NotasRealm',
+    'AUTH_HEADER_TYPES': ('Bearer',),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+}
+
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Notas API',
+    'DESCRIPTION': 'Documentación de la API de Notas con autenticación Keycloak.',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    'COMPONENT_SPLIT_REQUEST': True,
+    'SECURITY': [{'BearerAuth': []}],
+    'COMPONENTS': {
+        'securitySchemes': {
+            'BearerAuth': {
+                'type': 'http',
+                'scheme': 'bearer',
+                'bearerFormat': 'JWT',
+            }
+        }
+    }
+}
+
+KEYCLOAK_REALM = "NotasRealm"
+KEYCLOAK_HOST = "http://keycloak:8080"
+KEYCLOAK_CLIENT_ID = "django_api"
+
+
+
+

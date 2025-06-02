@@ -11,10 +11,26 @@ from .serializers.evaluacionser import EvaluacionSerializer
 from .serializers.asistenciaser import AsistenciaSerializer
 from .models import TipoDocumento, Curso, Estudiantes, Profesor, Clase, Nota, Evaluacion, Asistencia
 from drf_spectacular.utils import extend_schema
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def test_protected_view(request):
+    """
+    Vista protegida que solo es accesible para usuarios autenticados.
+    Devuelve un mensaje con el usuario autenticado.
+    """
+    return Response({'message': 'Acceso concedido', 'user': str(request.user)})
+
 
 # Documento
 @extend_schema(tags=['DOcumento'])
 class DocumentoRegistrationView(APIView):
+
+    serializer_class = DocumentoSerializer
     
     def post(self, request):
         serializer = DocumentoSerializer(data=request.data)
@@ -51,6 +67,8 @@ class DocumentoRegistrationView(APIView):
 
 @extend_schema(tags=['DOcumento'])
 class DocumentoDetailView(APIView):
+
+    serializer_class = DocumentoSerializer
     def get(self, request, pk):
         try:
             documento = TipoDocumento.objects.get(pk=pk)
@@ -62,7 +80,9 @@ class DocumentoDetailView(APIView):
 # Curso
 @extend_schema(tags=['Curso'])
 class CursoRegistrationView(APIView):
-    
+
+    serializer_class = CursoSerializer
+
     def post(self, request):
         serializer = CursoSerializer(data=request.data)
         if serializer.is_valid():
@@ -98,6 +118,9 @@ class CursoRegistrationView(APIView):
 
 @extend_schema(tags=['Curso'])
 class CursoDetailView(APIView):
+
+    serializer_class = CursoSerializer
+
     def get(self, request, pk):
         try:
             curso = Curso.objects.get(pk=pk)
@@ -110,6 +133,8 @@ class CursoDetailView(APIView):
 # Estudiantes
 @extend_schema(tags=['Estudiante'])
 class EstudiantesRegistrationView(APIView):
+
+    serializer_class = EstudiantesSerializer
     
     def post(self, request):
         serializer = EstudiantesSerializer(data=request.data)
@@ -139,13 +164,16 @@ class EstudiantesRegistrationView(APIView):
         try:
             estudiante = Estudiantes.objects.get(pk=pk)
         except Estudiantes.DoesNotExist:
-            return Response({"message": "Estudiante no encontrado"}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"message": "Estudiante no  encontrado"}, status=status.HTTP_404_NOT_FOUND)
 
         estudiante.delete()
         return Response({"message": "Estudiante eliminado exitosamente"}, status=status.HTTP_204_NO_CONTENT)
 
 @extend_schema(tags=['Estudiante'])
 class EstudiantesDetailView(APIView):
+
+    serializer_class = EstudiantesSerializer
+
     def get(self, request, pk):
         try:
             estudiante = Estudiantes.objects.get(pk=pk)
@@ -157,6 +185,8 @@ class EstudiantesDetailView(APIView):
 # Profesor
 @extend_schema(tags=['Profesor'])
 class ProfesorRegistrationView(APIView):
+
+    serializer_class = ProfesorSerializer
     
     def post(self, request):
         serializer = ProfesorSerializer(data=request.data)
@@ -193,6 +223,9 @@ class ProfesorRegistrationView(APIView):
 
 @extend_schema(tags=['Profesor'])
 class ProfesorDetailView(APIView):
+
+    serializer_class = ProfesorSerializer
+
     def get(self, request, pk):
         try:
             profesor = Profesor.objects.get(pk=pk)
@@ -204,6 +237,8 @@ class ProfesorDetailView(APIView):
 # Clase
 @extend_schema(tags=['Clase'])
 class ClaseRegistrationView(APIView):
+
+    serializer_class = ClaseSerializer
     
     def post(self, request):
         serializer = ClaseSerializer(data=request.data)
@@ -240,6 +275,9 @@ class ClaseRegistrationView(APIView):
 
 @extend_schema(tags=['Clase'])
 class ClaseDetailView(APIView):
+
+    serializer_class = ClaseSerializer
+
     def get(self, request, pk):
         try:
             clase = Clase.objects.get(pk=pk)
@@ -251,6 +289,8 @@ class ClaseDetailView(APIView):
 # Nota
 @extend_schema(tags=['Nota'])
 class NotaRegistrationView(APIView):
+
+    serializer_class = NotaSerializer
     
     def post(self, request):
         serializer = NotaSerializer(data=request.data)
@@ -287,6 +327,9 @@ class NotaRegistrationView(APIView):
 
 @extend_schema(tags=['Nota'])
 class NotaDetailView(APIView):
+
+    serializer_class = NotaSerializer
+
     def get(self, request, pk):
         try:
             nota = Nota.objects.get(pk=pk)
@@ -303,6 +346,8 @@ class NotaDetailView(APIView):
 # Evaluacion
 @extend_schema(tags=['Evaluacion'])
 class EvaluacionRegistrationView(APIView):
+
+    serializer_class = EvaluacionSerializer
     
     def post(self, request):
         serializer = EvaluacionSerializer(data=request.data)
@@ -339,6 +384,9 @@ class EvaluacionRegistrationView(APIView):
 
 @extend_schema(tags=['Evaluacion'])
 class EvaluacionDetailView(APIView):
+
+    serializer_class = EvaluacionSerializer
+
     def get(self, request, pk):
         try:
             evaluacion = Evaluacion.objects.get(pk=pk)
@@ -350,6 +398,8 @@ class EvaluacionDetailView(APIView):
 # Asistencia
 @extend_schema(tags=['Asistencia'])
 class AsistenciaRegistrationView(APIView):
+
+    serializer_class = AsistenciaSerializer
     
     def post(self, request):
         serializer = AsistenciaSerializer(data=request.data)
@@ -386,6 +436,9 @@ class AsistenciaRegistrationView(APIView):
 
 @extend_schema(tags=['Asistencia'])
 class AsistenciaDetailView(APIView):
+
+    serializer_class = AsistenciaSerializer
+    
     def get(self, request, pk):
         try:
             asistencia = Asistencia.objects.get(pk=pk)

@@ -6,7 +6,7 @@ class AsistenciaSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Asistencia
-        fields = ['estudiante', 'clase', 'fecha','presente']  
+        fields = '__all__'
 
     def create(self, validated_data):
         # Crear el usuario y guardar en la db

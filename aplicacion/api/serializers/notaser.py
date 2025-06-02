@@ -6,7 +6,7 @@ class NotaSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Nota
-        fields = ['estudiante', 'evaluacion', 'calificacion']  
+        fields = '__all__'
 
     def create(self, validated_data):
         # Crear el usuario y guardar en la db
