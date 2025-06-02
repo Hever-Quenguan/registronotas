@@ -1,0 +1,76 @@
+<div class="container m-2">
+  <div class="row">
+    <div class="col-12 text-center h3">
+      GESTIÓN DE NOTAS
+    </div>
+  </div>
+
+  <!-- Formulario -->
+  <div class="card shadow-sm p-4 mb-4">
+    <h5 class="mb-4 fw-bold">{{ editando ? 'EDITAR NOTA' : 'AGREGAR NOTA' }}</h5>
+
+    <form (ngSubmit)="guardarNota()" #notaForm="ngForm">
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label class="form-label">Estudiante</label>
+          <select class="form-select" [(ngModel)]="nota.estudiante" name="estudiante" required>
+            <option [ngValue]="null" disabled>Seleccione un estudiante</option>
+            <option *ngFor="let e of estudiantes" [ngValue]="e.id">{{ e.nombre }} {{ e.apellido }}</option>
+          </select>
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label">Evaluación</label>
+          <select class="form-select" [(ngModel)]="nota.evaluacion" name="evaluacion" required>
+            <option [ngValue]="null" disabled>Seleccione una evaluación</option>
+            <option *ngFor="let ev of evaluaciones" [ngValue]="ev.id">{{ ev.titulo }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label class="form-label">Calificación</label>
+          <input type="number" step="0.01" class="form-control" [(ngModel)]="nota.calificacion" name="calificacion" required />
+        </div>
+      </div>
+
+      <div class="text-end">
+        <button type="submit" class="btn btn-primary me-2">
+          {{ editando ? 'Actualizar' : 'Guardar' }}
+        </button>
+        <button type="button" class="btn btn-secondary" (click)="resetFormulario()">Cancelar</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Tabla de notas -->
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover align-middle">
+      <thead class="table-light">
+        <tr>
+          <th>Estudiante</th>
+          <th>Evaluación</th>
+          <th>Calificación</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="notas.length > 0; else sinNotas">
+        <tr *ngFor="let n of notas">
+          <td>{{ n.estudiante }}</td>
+          <td>{{ n.evaluacion }}</td>
+          <td>{{ n.calificacion }}</td>
+          <td>
+            <button class="btn btn-sm btn-warning me-2" (click)="editar(n)">Editar</button>
+            <button class="btn btn-sm btn-danger" (click)="eliminar(n)">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <ng-template #sinNotas>
+      <tr>
+        <td colspan="4" class="text-center">No hay notas registradas</td>
+      </tr>
+    </ng-template>
+  </div>
+</div>

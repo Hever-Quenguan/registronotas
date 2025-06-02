@@ -1,0 +1,61 @@
+<div class="container m-2">
+  <div class="row">
+    <div class="col-12 text-center h3">
+      GESTIÓN DE CURSOS
+    </div>
+  </div>
+
+  <!-- Formulario -->
+  <div class="card shadow-sm p-4 mb-4">
+    <h5 class="mb-4 fw-bold">{{ editando ? 'EDITAR CURSO' : 'AGREGAR CURSO' }}</h5>
+
+    <form (submit)="guardarCurso()" #cursoForm="ngForm">
+      <!-- Fila 1 -->
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label class="form-label">Nombre del Curso</label>
+          <input type="text" class="form-control" [(ngModel)]="curso.nombre" name="nombre" required />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Descripción</label>
+          <input type="text" class="form-control" [(ngModel)]="curso.descripcion" name="descripcion" required />
+        </div>
+      </div>
+
+      <!-- Botón -->
+      <div class="text-end">
+        <button type="submit" class="btn btn-primary">
+          {{ editando ? 'Actualizar Curso' : 'Agregar Curso' }}
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Tabla de cursos -->
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover align-middle">
+      <thead class="table-light">
+        <tr>
+          <th>Nombre</th>
+          <th>Descripción</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="cursos.length > 0; else sinCursos">
+        <tr *ngFor="let c of cursos">
+          <td>{{ c.nombre }}</td>
+          <td>{{ c.descripcion }}</td>
+          <td>
+            <button class="btn btn-sm btn-warning me-2" (click)="editar(c)">Editar</button>
+            <button class="btn btn-sm btn-danger" (click)="eliminar(c)">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <ng-template #sinCursos>
+      <tr>
+        <td colspan="3" class="text-center">No hay cursos registrados</td>
+      </tr>
+    </ng-template>
+  </div>
+</div>
