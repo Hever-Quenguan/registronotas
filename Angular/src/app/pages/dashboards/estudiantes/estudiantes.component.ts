@@ -12,66 +12,66 @@ import { HttpClientModule } from '@angular/common/http';
   templateUrl: './estudiantes.component.html',
 })
 
-export class EstudiantesComponent implements OnInit {
-  estudiantes: Estudiante[] = [];
-  estudiante: Estudiante = this.resetEstudiante();
-  editando: boolean = false;
-  estudianteEditandoId: number | null = null;
+export class EstudiantesComponent implements OnInit { 
+  estudiantes: Estudiante[] = [];  
+  estudiante: Estudiante = this.resetEstudiante(); 
+  editando: boolean = false; 
+  estudianteEditandoId: number | null = null; 
 
   constructor(private estService: EstudiantesService) {}
+ 
+  ngOnInit(): void { 
+    this.cargarEstudiantes(); 
+  } 
 
-  ngOnInit(): void {
-    this.cargarEstudiantes();
-  }
+  cargarEstudiantes() { 
+    this.estService.getEstudiantes().subscribe(data => this.estudiantes = data); 
+  } 
 
-  cargarEstudiantes() {
-    this.estService.getEstudiantes().subscribe(data => this.estudiantes = data);
-  }
-
-  guardarEstudiante() {
-    if (this.editando && this.estudianteEditandoId !== null) {
-      this.estService.updateEstudiante(this.estudianteEditandoId, this.estudiante).subscribe(() => {
-        this.resetFormulario();
-        this.cargarEstudiantes();
-      });
+  guardarEstudiante() { 
+    if (this.editando && this.estudianteEditandoId !== null) { 
+      this.estService.updateEstudiante(this.estudianteEditandoId, this.estudiante).subscribe(() => { 
+        this.resetFormulario(); 
+        this.cargarEstudiantes(); 
+      }); 
     } else {
-      this.estService.addEstudiante(this.estudiante).subscribe(() => {
-        this.resetFormulario();
-        this.cargarEstudiantes();
-      });
-    }
+      this.estService.addEstudiante(this.estudiante).subscribe(() => { 
+        this.resetFormulario(); 
+        this.cargarEstudiantes(); 
+      }); 
+    } 
   }
+ 
+  editar(est: Estudiante) { 
+  this.estudiante = { ...est }; 
+  this.editando = true; 
+  this.estudianteEditandoId = Number(est.id ?? est.numdoc); 
+} 
 
-  editar(est: Estudiante) {
-  this.estudiante = { ...est };
-  this.editando = true;
-  this.estudianteEditandoId = Number(est.id ?? est.numdoc);
+
+  eliminar(est: Estudiante) { 
+  if (confirm('¿Eliminar este estudiante?')) { 
+    const id = Number(est.id ?? est.numdoc); 
+    this.estService.deleteEstudiante(id).subscribe(() => this.cargarEstudiantes()); 
+  } 
 }
 
-
-  eliminar(est: Estudiante) {
-  if (confirm('¿Eliminar este estudiante?')) {
-    const id = Number(est.id ?? est.numdoc);
-    this.estService.deleteEstudiante(id).subscribe(() => this.cargarEstudiantes());
-  }
-}
-
-  resetFormulario() {
-    this.estudiante = this.resetEstudiante();
-    this.editando = false;
-    this.estudianteEditandoId = null;
+  resetFormulario() { 
+    this.estudiante = this.resetEstudiante(); 
+    this.editando = false; 
+    this.estudianteEditandoId = null; 
   }
 
   resetEstudiante(): Estudiante {
-    return {
-      nombre: '',
-      apellido: '',
+    return { 
+      nombre: '', 
+      apellido: '', 
       correo: '',
-      direccion: '',
+      direccion: '', 
       telefono: '',
-      tipodoc: '',
+      tipodoc: '', 
       numdoc: '',
       fecna: ''
-    };
+    }; 
   }
 }
