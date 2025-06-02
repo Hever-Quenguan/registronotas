@@ -5,64 +5,64 @@
     </div>
   </div>
 
-  <!-- Formulario -->
-  <div class="card shadow-sm p-4 mb-4">
-    <h5 class="mb-4 fw-bold">{{ editando ? 'EDITAR EVALUACIÓN' : 'AGREGAR EVALUACIÓN' }}</h5>
+  <!-- Formulario --> 
+  <div class="card shadow-sm p-4 mb-4"> 
+    <h5 class="mb-4 fw-bold">{{ editando ? 'EDITAR EVALUACIÓN' : 'AGREGAR EVALUACIÓN' }}</h5> 
 
-    <form (ngSubmit)="guardarEvaluacion()" #evaluacionForm="ngForm">
-      <div class="row mb-3">
-        <div class="col-md-6">
-          <label class="form-label">Clase</label>
-          <select class="form-select" [(ngModel)]="evaluacion.clase" name="clase" required>
-            <option [ngValue]="null" disabled>Seleccione una clase</option>
-            <option *ngFor="let cl of clases" [ngValue]="cl.id">Clase {{ cl.id }}</option>
-          </select>
-        </div>
+    <form (ngSubmit)="guardarEvaluacion()" #evaluacionForm="ngForm"> 
+      <div class="row mb-3"> 
+        <div class="col-md-6"> 
+          <label class="form-label">Clase</label> 
+          <select class="form-select" [(ngModel)]="evaluacion.clase" name="clase" required> 
+            <option [ngValue]="null" disabled>Seleccione una clase</option> 
+            <option *ngFor="let cl of clases" [ngValue]="cl.id">Clase {{ cl.id }}</option> 
+          </select> 
+        </div> 
 
-        <div class="col-md-6">
-          <label class="form-label">Título</label>
-          <input type="text" class="form-control" [(ngModel)]="evaluacion.titulo" name="titulo" required />
-        </div>
-      </div>
+        <div class="col-md-6">  
+          <label class="form-label">Título</label> 
+          <input type="text" class="form-control" [(ngModel)]="evaluacion.titulo" name="titulo" required /> 
+        </div> 
+      </div> 
 
-      <div class="row mb-3">
-        <div class="col-md-6">
-          <label class="form-label">Descripción</label>
-          <input type="text" class="form-control" [(ngModel)]="evaluacion.descripcion" name="descripcion" required />
-        </div>
+      <div class="row mb-3"> 
+        <div class="col-md-6"> 
+          <label class="form-label">Descripción</label> 
+          <input type="text" class="form-control" [(ngModel)]="evaluacion.descripcion" name="descripcion" required /> 
+        </div> 
 
-        <div class="col-md-3">
-          <label class="form-label">Fecha</label>
-          <input type="date" class="form-control" [(ngModel)]="evaluacion.fecha" name="fecha" required />
-        </div>
+        <div class="col-md-3"> 
+          <label class="form-label">Fecha</label> 
+          <input type="date" class="form-control" [(ngModel)]="evaluacion.fecha" name="fecha" required /> 
+        </div> 
 
-        <div class="col-md-3">
-          <label class="form-label">Ponderación (%)</label>
+        <div class="col-md-3"> 
+          <label class="form-label">Ponderación (%)</label> 
           <input type="number" class="form-control" [(ngModel)]="evaluacion.ponderacion" name="ponderacion" required />
-        </div>
-      </div>
+        </div> 
+      </div> 
 
-      <div class="text-end">
-        <button type="submit" class="btn btn-primary me-2">
-          {{ editando ? 'Actualizar' : 'Guardar' }}
-        </button>
-        <button type="button" class="btn btn-secondary" (click)="resetFormulario()">Cancelar</button>
-      </div>
-    </form>
-  </div>
+      <div class="text-end"> 
+        <button type="submit" class="btn btn-primary me-2"> 
+          {{ editando ? 'Actualizar' : 'Guardar' }} 
+        </button> 
+        <button type="button" class="btn btn-secondary" (click)="resetFormulario()">Cancelar</button> 
+      </div> 
+    </form> 
+  </div> 
 
-  <!-- Tabla de evaluaciones -->
-  <div class="table-responsive">
-    <table class="table table-bordered table-hover align-middle">
-      <thead class="table-light">
+  <!-- Tabla de evaluaciones --> 
+  <div class="table-responsive"> 
+    <table class="table table-bordered table-hover align-middle"> 
+      <thead class="table-light"> 
         <tr>
-          <th>Clase</th>
-          <th>Título</th>
-          <th>Descripción</th>
-          <th>Fecha</th>
-          <th>Ponderación</th>
-          <th>Acciones</th>
-        </tr>
+          <th>Clase</th> 
+          <th>Título</th> 
+          <th>Descripción</th> 
+          <th>Fecha</th> 
+          <th>Ponderación</th> 
+          <th>Acciones</th> 
+        </tr> 
       </thead>
       <tbody *ngIf="evaluaciones.length > 0; else sinEvaluaciones">
         <tr *ngFor="let ev of evaluaciones">
