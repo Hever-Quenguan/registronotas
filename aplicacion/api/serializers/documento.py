@@ -6,8 +6,8 @@ class DocumentoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = TipoDocumento
-        fields = ['descrip']  
-
+        fields = '__all__'
+        
     def create(self, validated_data):
         # Crear el usuario y guardar en la db
         docu = TipoDocumento(

@@ -26,10 +26,25 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=1234
       - POSTGRES_DB=notas
-      - POSTGRES_HOST=db     
+      - POSTGRES_HOST=db
       - POSTGRES_PORT=5432
     volumes:
       - .:/app
 
+  keycloak:
+    image: quay.io/keycloak/keycloak:24.0.1
+    container_name: keycloak
+    command: start-dev
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    volumes:
+      - keycloak_data:/opt/keycloak/data
+
 volumes:
   pg_data:
+  keycloak_data:

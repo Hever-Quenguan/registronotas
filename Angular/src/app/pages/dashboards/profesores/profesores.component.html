@@ -1,0 +1,104 @@
+<div class="container m-2">
+  <div class="row">
+    <div class="col-12 text-center h3">
+      GESTIÓN DE PROFESORES
+    </div>
+  </div>
+
+  <!-- Formulario -->
+  <div class="card shadow-sm p-4 mb-4">
+    <h5 class="mb-4 fw-bold">{{ editando ? 'EDITAR PROFESOR' : 'AGREGAR PROFESOR' }}</h5>
+
+    <form (submit)="guardarProfesor()" #profesorForm="ngForm">
+      <!-- Fila 1 --> 
+      <div class="row mb-3">  
+        <div class="col-md-6"> 
+          <label class="form-label">Nombre</label> 
+          <input type="text" class="form-control" [(ngModel)]="profesor.nombre" name="nombre" required /> 
+        </div> 
+        <div class="col-md-6">
+          <label class="form-label">Apellido</label> 
+          <input type="text" class="form-control" [(ngModel)]="profesor.apellido" name="apellido" required /> 
+        </div> 
+      </div> 
+
+      <!-- Fila 2 --> 
+      <div class="row mb-3"> 
+        <div class="col-md-6"> 
+          <label class="form-label">Correo</label> 
+          <input type="email" class="form-control" [(ngModel)]="profesor.correo" name="correo" required /> 
+        </div>  
+        <div class="col-md-6"> 
+          <label class="form-label">Dirección</label> 
+          <input type="text" class="form-control" [(ngModel)]="profesor.direccion" name="direccion" /> 
+        </div> 
+      </div> 
+
+      <!-- Fila 3 --> 
+      <div class="row mb-3"> 
+        <div class="col-md-6"> 
+          <label class="form-label">Teléfono</label> 
+          <input type="text" class="form-control" [(ngModel)]="profesor.telefono" name="telefono" /> 
+        </div> 
+        <div class="col-md-3">   
+          <label class="form-label">Tipo Documento</label>  
+          <input type="number" class="form-control" [(ngModel)]="profesor.tipodoc" name="tipodoc" /> 
+        </div> 
+        <div class="col-md-3"> 
+          <label class="form-label">Número Documento</label> 
+          <input type="text" class="form-control" [(ngModel)]="profesor.numdoc" name="numdoc" /> 
+        </div>  
+      </div> 
+
+      <!-- Fila 4 --> 
+      <div class="row mb-3">  
+        <div class="col-md-6"> 
+          <label class="form-label">Especialidad</label> 
+          <input type="text" class="form-control" [(ngModel)]="profesor.especialidad" name="especialidad" /> 
+        </div> 
+      </div> 
+
+      <!-- Botón --> 
+      <div class="text-end"> 
+        <button type="submit" class="btn btn-primary"> 
+          {{ editando ? 'Actualizar Profesor' : 'Agregar Profesor' }} 
+        </button> 
+      </div> 
+    </form> 
+  </div>
+
+  <!-- Tabla de profesores --> 
+  <div class="table-responsive"> 
+    <table class="table table-bordered table-hover align-middle"> 
+      <thead class="table-light"> 
+        <tr> 
+          <th>Nombre</th> 
+          <th>Apellido</th> 
+          <th>Correo</th> 
+          <th>Teléfono</th> 
+          <th>Especialidad</th> 
+          <th>Acciones</th> 
+        </tr> 
+      </thead> 
+      <tbody *ngIf="profesores.length > 0; else sinProfesores"> 
+        <tr *ngFor="let prof of profesores"> 
+          <td>{{ prof.nombre }}</td> 
+          <td>{{ prof.apellido }}</td> 
+          <td>{{ prof.correo }}</td> 
+          <td>{{ prof.telefono }}</td> 
+          <td>{{ prof.especialidad }}</td> 
+          <td> 
+            <button class="btn btn-sm btn-warning me-2" (click)="editar(prof)">Editar</button> 
+            <button class="btn btn-sm btn-danger" (click)="eliminar(prof)">Eliminar</button> 
+          </td> 
+        </tr> 
+      </tbody> 
+    </table> 
+    <ng-template #sinProfesores> 
+      <tr> 
+        <td colspan="6" class="text-center">No hay profesores registrados</td> 
+      </tr> 
+    </ng-template> 
+  </div> 
+</div> 
+ 

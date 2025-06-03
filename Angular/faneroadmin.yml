@@ -1,0 +1,24 @@
+trigger:
+- main  # Se ejecuta en cada push a main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '18.x' # Usa la versión de Node compatible
+
+- script: |
+    npm install -g @angular/cli
+    npm install
+    ng build --configuration=production
+  displayName: 'Instalar dependencias y compilar Angular'
+
+- task: AzureStaticWebApp@0
+  inputs:
+    app_location: 'dist/tu-app' # Ruta de la build
+    azure_static_web_apps_api_token: $(AZURE_STATIC_WEB_APPS_API_TOKEN) # Token generado en Azure
+    output_location: '' # Dejar vacío para Static Web Apps
+  displayName: 'Desplegar en Azure Static Web Apps'
+

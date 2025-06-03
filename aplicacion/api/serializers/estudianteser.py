@@ -6,7 +6,7 @@ class EstudiantesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Estudiantes
-        fields = ['nombre', 'apellido', 'correo', 'direccion', 'telefono', 'tipodoc', 'numdoc', 'fecna']  
+        fields = '__all__'
 
     def create(self, validated_data):
         # Crear el usuario y guardar en la db

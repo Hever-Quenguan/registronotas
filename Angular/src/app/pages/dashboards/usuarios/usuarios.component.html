@@ -1,0 +1,417 @@
+<div class="container-fluid m-3">
+  <div class="row">
+      <div class="col-12 text-center h3">
+          Usuarios
+      </div>
+  </div>
+
+
+  <div class="card shadow-sm rounded-3 mb-3">
+    <div class="card-header bg-light border-bottom">
+      <h5 class="mb-0">
+        <button class="btn btn-link text-dark fw-bold" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+          Filtro
+        </button>
+      </h5>
+    </div>
+  
+    <div id="collapseOne" class="collapse show">
+      <div class="card-body">
+        <form [formGroup]="filterUsuariosForm">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Tipo Documento</label>
+              <select class="form-control" formControlName="tipoDoc">
+                <option selected value="">Seleccione</option>
+                <option value="CC">Cédula</option>
+                <option value="NI">NIT</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Número Documento</label>
+              <input class="form-control" formControlName="documento" type="text" placeholder="Número documento">
+            </div>
+  
+            <div class="col-md-6">
+              <label class="form-label">Estado</label>
+              <select class="form-control" formControlName="estado">
+                <option selected value="">Seleccione</option>
+                <option value="1">Activo</option>
+                <option value="0">Inactivo</option>
+              </select>
+            </div>
+  
+            <div class="col-md-6">
+              <label class="form-label">Perfil</label>
+              <select class="form-control" formControlName="idPerfil">
+                <option selected value="">Seleccione</option>
+                <option value="1">Administrador</option>
+                <option value="2">Negocios</option>
+              </select>
+            </div>
+          </div>
+  
+          <div class="mt-4 d-flex gap-3">
+            <button type="button" class="btn btn-warning" (click)="filter()">
+              <i class="fa fa-search me-1"></i> Buscar
+            </button>
+            <button type="button" class="btn btn-success" (click)="openLg(content)">
+              <i class="fa fa-plus me-1"></i> Nuevo
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+<div class="card p-3">
+  
+  
+  <table id="my-tables" datatable class="table table-borderless table-hover" style="font-size: small;">
+    <thead>
+        <tr>
+            <th>Tipo Doc</th>
+            <th>No Documento</th>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Teléfono</th>
+            <th>Perfil</th>
+            <th>Usuario</th>
+            <th>Opciones</th>
+        </tr>
+    </thead>
+
+    <!-- Spinner de carga -->
+    <tbody *ngIf="!state">
+        <tr>
+            <td colspan="8">
+                <div class="d-flex justify-content-center">
+                    <div class="spinner-border" role="status">
+                        <span class="sr-only">Cargando...</span>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+
+    <!-- Cuerpo de la tabla con datos -->
+    <tbody *ngIf="state && usuariosFull.length > 0">
+        <tr *ngFor="let usuario of usuariosFull">
+            <td>{{ usuario.tipoIdetificacion }}</td> <!-- Corregido -->
+            <td>{{ usuario.numeroDocumento }}</td>
+            <td>{{ usuario.nombres }} {{ usuario.apellidos }}</td>
+            <td>{{ usuario.email }}</td>
+            <td>{{ usuario.telefono }}</td>
+            <td>{{ usuario.perfil }}</td> <!-- Ajustado -->
+            <td>{{ usuario.email }}</td>
+            <td class="btn-group">
+                <button type="button" class="btn btn-warning ml-1" (click)="openLgEdit(contentEditar);buscarUsuarioPorId(usuario.id);">
+                    <i class="fa fa-edit"></i>
+                </button>
+            </td>
+        </tr>
+    </tbody>
+
+
+    <!-- <tbody *ngIf="state && usuarios.length > 0">
+      <tr *ngFor="let usuario of usuarios">
+          <td>{{ usuario.tipoIdetificacion }}</td> Corregido -->
+          <!-- <td>{{ usuario.numeroDocumento }}</td>
+          <td>{{ usuario.nombres }} {{ usuario.apellidos }}</td>
+          <td>{{ usuario.email }}</td>
+          <td>{{ usuario.telefono }}</td>
+          <td>{{ usuario.perfil }}</td>  Ajustado -->
+          <!-- <td>{{ usuario.email }}</td>
+          <td class="btn-group"> -->
+              <!-- <button type="button" class="btn btn-warning ml-1" (click)="openLgEdit(contentEditar);buscarUsuarioPorId(usuario.id);">
+                  <i class="fa fa-edit"></i>
+              </button> -->
+          <!-- </td>
+      </tr>
+  </tbody>  -->
+
+    <!-- Mensaje si no hay datos -->
+    <tbody *ngIf="state && usuariosFull.length == 0">
+        <tr>
+            <td colspan="8" class="no-data-available text-center">No hay datos</td>
+        </tr>
+    </tbody>
+</table>
+
+
+
+
+
+
+</div>
+</div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Nuevo Usuario</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body ">
+    <div class="card-body">
+      <div class="row">
+
+        <form *ngIf="true"  [formGroup]="infoUsuarioForm" novalidate (ngSubmit)="guardarUsuario()" class="col-12"
+        #formInfoUsuario="ngForm" >
+
+        <!-- <form [formGroup]="infoVendedorForm" novalidate (ngSubmit)="editarInfoVendedor()" class="col-12"
+        #formInfoVendedor="ngForm" enctype="multipart/form-data"> -->
+
+        <div class="form-row">
+
+          <div class="form-group col-md-6">
+            <select formControlName="tipoIdetificacion" [value]="selectTipoDoc"
+              (change)="selectTipoDoc=$event.target.value" id="tipoIdetificacion" class="form-control"
+              [ngClass]="{ 'is-invalid': formInfoUsuario.submitted && f.tipoIdetificacion.errors }">
+              <option value="">Tipo de Documento</option>
+              <option value="NI">Nit</option>
+              <option value="CC">Cédula de Ciudadanía</option>
+              <option value="PA">Pasaporte</option>
+              <option value="CE">Cédula de Extranjería</option>
+
+              <!-- <option *ngFor="let item of listaTiposCuenta" [value]="item.valor">{{item.descripcion}}</option> -->
+            </select>
+          </div>
+
+          <div class="form-group col-md-6">
+            <input formControlName="numeroDocumento"   type="text"
+            class="form-control" id="numeroDocumento" placeholder="Número de Documento"
+            [ngClass]="{ 'is-invalid': formInfoUsuario.submitted && f.numeroDocumento.errors }">
+          </div>
+
+            <div class="form-group col-md-6">
+              <input formControlName="nombres"   type="text"
+              class="form-control" id="NombreCompleto" placeholder="Nombre Completo"
+              [ngClass]="{ 'is-invalid': formInfoUsuario.submitted && f.nombres.errors }">
+            </div>
+
+
+          <div class="form-group col-md-6">
+            <input formControlName="apellidos"   type="text"
+              class="form-control" id="apellidos" placeholder="Apellidos"
+              [ngClass]="{ 'is-invalid': formInfoUsuario.submitted && f.apellidos.errors }">
+          </div>
+
+          <div class="form-group col-md-6">
+            <input formControlName="email" [(ngModel)]="emailNgm"  type="email"
+              class="form-control" id="email" placeholder="Correo Electóronico"
+              [ngClass]="{ 'is-invalid': formInfoUsuario.submitted && f.email.errors }">
+          </div>
+
+          <div class="form-group col-md-2">
+            <label for="">Usuario</label>
+          </div>
+          <div class="form-group col-md-4">
+            <input  value="{{emailNgm}}"  type="email"
+              class="form-control" disabled>
+          </div>
+
+
+          <div class="form-group col-md-6">
+            <input formControlName="telefono"   type="tel"
+              class="form-control" id="telefono" placeholder="Teléfono"
+              [ngClass]="{ 'is-invalid': formInfoUsuario.submitted && f.telefono.errors }">
+          </div>
+
+          <div class="form-group col-md-6">
+            <select formControlName="perfil" [value]="selectperfil"
+              (change)="selectperfil=$event.target.value" id="perfil" class="form-control"
+              [ngClass]="{ 'is-invalid': formInfoUsuario.submitted && f.perfil.errors }">
+              <option value="">Escoja Perfil</option>
+              <option value="1">Administrador</option>
+              <option value="2">Negocios</option>
+
+              <!-- <option *ngFor="let item of listaTiposCuenta" [value]="item.valor">{{item.descripcion}}</option> -->
+            </select>
+          </div>
+
+        </div>
+
+        <div class="form-row mt-2">
+          <div class="form-group col-md-2">
+            <label class="h5" for="cuentavend">Activo</label>
+          </div>
+
+
+          <div class="col-2 justify-content-center" id="TipoLiquidacionDiv">
+            <div class="custom-control custom-radio ">
+              <input type="radio" id="radSi" value="1"
+              formControlName="estado"
+                [(ngModel)]="optestadoNgm" class="custom-control-input"
+                [ngClass]="{ 'is-invalid': formInfoUsuario.submitted && f.estado.errors }">
+              <label class="custom-control-label h4" for="radSi">
+                <h6>Si</h6>
+              </label>
+            </div>
+          </div>
+
+          <div class="col-32 justify-content-center">
+            <div class="custom-control custom-radio ">
+              <input type="radio" id="radNo" value="0" formControlName="estado"
+                [(ngModel)]="optestadoNgm" class="custom-control-input"
+                [ngClass]="{ 'is-invalid': formInfoUsuario.submitted && f.estado.errors }">
+              <label class="custom-control-label h4" for="radNo">
+                <h6>No</h6>
+              </label>
+            </div>
+          </div>
+        </div>
+
+
+
+        <div class="col-12 text-center">
+          <button type="submit" class="btn btn-warning">Guardar</button>
+        </div>
+      </form>
+
+      </div>
+    </div>
+    <!-- /.card-body -->
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Cerrar</button>
+  </div>
+</ng-template>
+
+
+<!-- Para editar/activar -->
+
+<ng-template #contentEditar let-modalEdit>
+  <div class="modal-header">
+    <h4 class="modal-title">Editar Usuario</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modalEdit.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body ">
+    <div class="card-body">
+      <div class="row">
+
+        <form *ngIf="true"  [formGroup]="infoUsuarioForm" novalidate (ngSubmit)="editarUsuario()" class="col-12"
+        #formInfoUsuario="ngForm" >
+
+        <!-- <form [formGroup]="infoVendedorForm" novalidate (ngSubmit)="editarInfoVendedor()" class="col-12"
+        #formInfoVendedor="ngForm" enctype="multipart/form-data"> -->
+
+        <div class="form-row">
+
+          <div class="form-group col-md-6">
+            <select formControlName="tipoIdetificacion" [value]="selectTipoDoc" [(ngModel)]="tipoIdetificacionNg"
+              (change)="selectTipoDoc=$event.target.value" id="tipoIdetificacion" class="form-control"
+              [ngClass]="{ 'is-invalid': formInfoUsuario.submitted && f.tipoIdetificacion.errors }">
+              <option value="">Tipo de Documento</option>
+              <option value="NI">Nit</option>
+              <option value="CC">Cédula de Ciudadanía</option>
+              <option value="PA">Pasaporte</option>
+              <option value="CE">Cédula de Extranjería</option>
+
+              <!-- <option *ngFor="let item of listaTiposCuenta" [value]="item.valor">{{item.descripcion}}</option> -->
+            </select>
+          </div>
+
+          <div class="form-group col-md-6">
+            <input formControlName="numeroDocumento"   type="text" [(ngModel)]="numeroDocumentoNg"
+            class="form-control" id="numeroDocumento" placeholder="Número de Documento"
+            [ngClass]="{ 'is-invalid': formInfoUsuario.submitted && f.numeroDocumento.errors }">
+          </div>
+
+            <div class="form-group col-md-6">
+              <input formControlName="nombres"   type="text" [(ngModel)]="nombresNg"
+              class="form-control" id="NombreCompleto" placeholder="Nombre Completo"
+              [ngClass]="{ 'is-invalid': formInfoUsuario.submitted && f.nombres.errors }">
+            </div>
+
+
+          <div class="form-group col-md-6">
+            <input formControlName="apellidos"   type="text" [(ngModel)]="apellidosNg"
+              class="form-control" id="apellidos" placeholder="Apellidos"
+              [ngClass]="{ 'is-invalid': formInfoUsuario.submitted && f.apellidos.errors }">
+          </div>
+
+          <div class="form-group col-md-6">
+            <input formControlName="email" [(ngModel)]="emailNgm"  type="email"
+              class="form-control" id="email" placeholder="Correo Electóronico"
+              [ngClass]="{ 'is-invalid': formInfoUsuario.submitted && f.email.errors }">
+          </div>
+
+          <div class="form-group col-md-2">
+            <label for="">Usuario</label>
+          </div>
+          <div class="form-group col-md-4">
+            <input  value="{{emailNgm}}"  type="email"
+              class="form-control" disabled>
+          </div>
+
+
+          <div class="form-group col-md-6">
+            <input formControlName="telefono"   type="tel" [(ngModel)]="telefonoNgm"
+              class="form-control" id="telefono" placeholder="Teléfono"
+              [ngClass]="{ 'is-invalid': formInfoUsuario.submitted && f.telefono.errors }">
+          </div>
+
+          <div class="form-group col-md-6">
+            <select formControlName="perfil" [value]="selectperfil" [(ngModel)]="perfilNgm"
+              (change)="selectperfil=$event.target.value" id="perfil" class="form-control"
+              [ngClass]="{ 'is-invalid': formInfoUsuario.submitted && f.perfil.errors }">
+              <option value="">Escoja Perfil</option>
+              <option value="1">Administrador</option>
+              <option value="2">Negocios</option>
+
+              <!-- <option *ngFor="let item of listaTiposCuenta" [value]="item.valor">{{item.descripcion}}</option> -->
+            </select>
+          </div>
+
+        </div>
+
+        <div class="form-row mt-2">
+          <div class="form-group col-md-2">
+            <label class="h5" for="cuentavend">Activo</label>
+          </div>
+
+
+          <div class="col-2 justify-content-center" id="TipoLiquidacionDiv">
+            <div class="custom-control custom-radio ">
+              <input type="radio" id="radSi" value="1"
+              formControlName="estado"
+                [(ngModel)]="optestadoNgm" class="custom-control-input"
+                [ngClass]="{ 'is-invalid': formInfoUsuario.submitted && f.estado.errors }">
+              <label class="custom-control-label h4" for="radSi">
+                <h6>Si</h6>
+              </label>
+            </div>
+          </div>
+
+          <div class="col-32 justify-content-center">
+            <div class="custom-control custom-radio ">
+              <input type="radio" id="radNo" value="0" formControlName="estado"
+                [(ngModel)]="optestadoNgm" class="custom-control-input"
+                [ngClass]="{ 'is-invalid': formInfoUsuario.submitted && f.estado.errors }">
+              <label class="custom-control-label h4" for="radNo">
+                <h6>No</h6>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <input type="hidden" formControlName="id" [(ngModel)]="idUsuarioNgm">
+
+        <div class="col-12 text-center">
+          <button type="submit" class="btn btn-warning">Editar</button>
+        </div>
+      </form>
+
+      </div>
+    </div>
+    <!-- /.card-body -->
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="modalEdit.close('Close click')">Cerrar</button>
+  </div>
+</ng-template>
+

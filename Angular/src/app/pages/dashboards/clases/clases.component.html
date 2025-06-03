@@ -1,0 +1,83 @@
+<div class="container m-2">
+  <div class="row">
+    <div class="col-12 text-center h3">
+      GESTIÓN DE CLASES
+    </div>
+  </div>
+
+  <!-- Formulario -->
+  <div class="card shadow-sm p-4 mb-4"> 
+    <h5 class="mb-4 fw-bold">{{ editando ? 'EDITAR CLASE' : 'AGREGAR CLASE' }}</h5> 
+
+    <form (ngSubmit)="guardarClase()" #claseForm="ngForm"> 
+      <div class="row mb-3"> 
+        <div class="col-md-6"> 
+          <label class="form-label">Curso</label> 
+          <select class="form-select" [(ngModel)]="clase.curso" name="curso" required> 
+            <option [ngValue]="null" disabled>Seleccione un curso</option> 
+            <option *ngFor="let c of cursos" [ngValue]="c.id">{{ c.nombre }}</option> 
+          </select> 
+        </div>
+
+        <div class="col-md-6"> 
+          <label class="form-label">Profesor</label> 
+          <select class="form-select" [(ngModel)]="clase.profesor" name="profesor" required> 
+            <option [ngValue]="null" disabled>Seleccione un profesor</option> 
+            <option *ngFor="let p of profesores" [ngValue]="p.id">{{ p.nombre }} {{ p.apellido }}</option> 
+          </select> 
+        </div> 
+      </div> 
+ 
+      <div class="row mb-3"> 
+        <div class="col-md-6"> 
+          <label class="form-label">Horario</label> 
+          <input type="text" class="form-control" [(ngModel)]="clase.horario" name="horario" required /> 
+        </div> 
+
+        <div class="col-md-6"> 
+          <label class="form-label">Semestre</label> 
+          <input type="text" class="form-control" [(ngModel)]="clase.semestre" name="semestre" required /> 
+        </div> 
+      </div> 
+
+      <div class="text-end"> 
+        <button type="submit" class="btn btn-primary me-2"> 
+          {{ editando ? 'Actualizar' : 'Guardar' }} 
+        </button> 
+        <button type="button" class="btn btn-secondary" (click)="resetFormulario()">Cancelar</button> 
+      </div> 
+    </form> 
+  </div> 
+
+  <!-- Tabla de clases -->
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover align-middle">
+      <thead class="table-light">
+        <tr>
+          <th>Curso</th>
+          <th>Profesor</th>
+          <th>Horario</th>
+          <th>Semestre</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="clases.length > 0; else sinClases">
+        <tr *ngFor="let cl of clases">
+          <td>{{ cl.curso }}</td>
+          <td>{{ cl.profesor }}</td>
+          <td>{{ cl.horario }}</td>
+          <td>{{ cl.semestre }}</td>
+          <td>
+            <button class="btn btn-sm btn-warning me-2" (click)="editar(cl)">Editar</button>
+            <button class="btn btn-sm btn-danger" (click)="eliminar(cl)">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <ng-template #sinClases>
+      <tr>
+        <td colspan="5" class="text-center">No hay clases registradas</td>
+      </tr>
+    </ng-template>
+  </div>
+</div>
