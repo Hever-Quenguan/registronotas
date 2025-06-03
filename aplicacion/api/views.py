@@ -164,7 +164,9 @@ class EstudiantesRegistrationView(APIView):
         try:
             estudiante = Estudiantes.objects.get(pk=pk)
         except Estudiantes.DoesNotExist:
+
             return Response({"message": "Estudiante no  encontrado"}, status=status.HTTP_404_NOT_FOUND)
+
 
         estudiante.delete()
         return Response({"message": "Estudiante eliminado exitosamente"}, status=status.HTTP_204_NO_CONTENT)
@@ -373,6 +375,7 @@ class EvaluacionRegistrationView(APIView):
             return Response({"message": "Evaluación actualizada exitosamente"}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
     def delete(self, request, pk):
         try:
             evaluacion = Evaluacion.objects.get(pk=pk)
@@ -381,6 +384,7 @@ class EvaluacionRegistrationView(APIView):
 
         evaluacion.delete()
         return Response({"message": "Evaluación eliminada exitosamente"}, status=status.HTTP_204_NO_CONTENT)
+
 
 @extend_schema(tags=['Evaluacion'])
 class EvaluacionDetailView(APIView):
