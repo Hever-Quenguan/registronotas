@@ -1,3 +1,237 @@
+RegistroNotas
+
+RegistroNotas es una aplicación para gestionar calificaciones académicas de manera sencilla. Consta de un backend (servidor) que ofrece una API para guardar y consultar datos, y un frontend (sitio web) que permite a los usuarios interactuar con esos datos mediante formularios e interfaces amigables.
+
+Contenido
+
+¿Qué es RegistroNotas?
+
+Tecnologías principales
+
+Estructura general
+
+Cómo empezar
+
+Preparar el servidor (backend)
+
+Preparar la interfaz (frontend)
+
+Cómo usar la aplicación
+
+Buenas prácticas básicas
+
+¿Qué es RegistroNotas?
+
+RegistroNotas es un sistema que permite:
+
+Crear y administrar estudiantes, profesores, cursos y clases.
+
+Registrar evaluaciones (por ejemplo, exámenes) y asignar notas a cada estudiante.
+
+Consultar listados de estudiantes, cursos y calificaciones desde una interfaz web.
+
+Usar la aplicación en una red local o desplegarla en un servidor real.
+
+La idea es que cualquier institución educativa pequeña (colegio, instituto, academia) pueda llevar el control de sus calificaciones de forma ordenada.
+
+Tecnologías principales
+
+Backend (servidor):
+
+Python con Django
+
+Base de datos sencilla (PostgreSQL)
+
+Uso de Docker para instalar en un contenedor sin complicaciones
+
+Frontend (sitio web):
+
+Angular (lenguaje TypeScript)
+
+Interfaz moderna con formularios y tablas fáciles de usar
+
+Estructura general
+
+Al descomprimir el proyecto, verás algo así:
+
+registronotas/             ← Carpeta principal
+├── registronotas/          ← Carpeta con backend y frontend
+│   ├── Angular/            ← Código de la página web (frontend)
+│   ├── Dockerfile          ← Instrucciones para crear el servidor (backend)
+│   ├── docker-compose.yml  ← Levanta la base de datos y el servidor en contenedores
+│   └── aplicacion/         ← Carpeta con el proyecto Django (servidor)
+└── README.md               ← Este archivo de instrucciones
+
+aplicacion/: aquí vive el código que maneja los datos (estudiantes, cursos, notas). Se encarga de recibir peticiones, guardar información en la base de datos y responder con datos en formato JSON.
+
+Dockerfile y docker-compose.yml: permiten levantar el servidor y la base de datos con un solo comando, sin instalar nada manualmente.
+
+Angular/: contiene el sitio web que se conecta al servidor para mostrar los datos y permitir al usuario registrar información.
+
+Cómo empezar
+
+Preparar el servidor (backend)
+
+Instalar Docker y Docker Compose (si no los tienes).
+
+Sigue las instrucciones en https://docs.docker.com/get-docker/
+
+Entrar a la carpeta del servidor:
+
+cd registronotas/registronotas  # Igual al directorio donde está docker-compose.yml
+
+Configurar variables básicas:
+
+Crea un archivo llamado .env dentro de aplicacion/ con esto mínimo:
+
+SECRET_KEY=una_clave_secreta_cualquiera
+DEBUG=True
+DATABASE_URL=postgres://postgres:1234@db:5432/notas
+
+SECRET_KEY sirve para seguridad interna. Puedes poner cualquier texto largo.
+
+DEBUG=True permite ver errores detallados mientras desarrollas. En producción se pondría False.
+
+DATABASE_URL indica que usará la base de datos PostgreSQL dentro de Docker.
+
+Levantar contenedores:
+
+docker-compose up -d
+
+Esto descargará y ejecutará dos contenedores:
+
+db: servidor de base de datos PostgreSQL.
+
+web: servidor Django que atiende la API.
+
+Crear la base de datos:Una vez que los contenedores estén corriendo (verifica con docker ps), ejecuta:
+
+docker-compose exec web python manage.py migrate
+
+Esto creará las tablas necesarias para guardar estudiantes, cursos, evaluaciones y notas.
+
+Crear un usuario administrador (opcional, para ingresar a un panel especial):
+
+docker-compose exec web python manage.py createsuperuser
+
+Ingresa un nombre de usuario, correo y contraseña cuando te lo pida.
+
+Probar que funciona:
+
+En tu navegador, ve a http://localhost:8000/admin/
+
+Ingresa con el usuario que creaste.
+
+Verás diferentes opciones: Estudiantes, Profesores, Cursos, Clases, Evaluaciones, Notas.
+
+O visita http://localhost:8000/swagger/ para ver una lista de direcciones (endpoints) que ofrece el servidor. Ahí puedes probar enviar datos y ver respuestas.
+
+Preparar la interfaz (frontend)
+
+Instalar Node.js y npm (si no los tienes):
+
+Descárgalos en https://nodejs.org/.
+
+Ir a la carpeta del frontend:
+
+cd Angular
+
+Instalar dependencias:
+
+npm install
+
+Esto descarga todas las librerías necesarias para que Angular funcione.
+
+Configurar la dirección del backend:
+
+Abre src/environments/environment.ts y verifica que diga:
+
+export const environment = {
+  production: false,
+  apiUrl: 'http://localhost:8000/api'
+};
+
+Esto indica al sitio web dónde buscar la información.
+
+Levantar el sitio web:
+
+npm start
+
+Al terminar de compilar, abre tu navegador en http://localhost:4200/.
+
+Verás una página con menús que, por ahora, muestran ejemplos. Usaremos esto para crear páginas de Estudiantes, Cursos, Notas, etc.
+
+Cómo usar la aplicación
+
+1. Conocer las áreas principales
+
+Administrador Django (/admin/):
+
+Sirve para agregar o ver información básica (estudiantes, cursos, profesores, evaluaciones, notas).
+
+Sólo usuarios con permiso (creados con createsuperuser) pueden ingresar.
+
+API REST (/api/):
+
+Son direcciones (por ejemplo, GET /api/estudiantes/) que devuelven datos en formato JSON.
+
+Se pueden usar desde Angular o desde herramientas como Postman.
+
+Frontend Angular (http://localhost:4200/):
+
+Sitio interactivo donde el usuario final podrá ver, agregar y modificar estudiantes, cursos, evaluaciones y notas.
+
+2. Flujo rápido de ejemplo
+
+Agregar datos en Django Admin:
+
+Ve a http://localhost:8000/admin/.
+
+Crea algunos Cursos (por ejemplo, “Matemáticas”), Clases asociadas, Estudiantes y Evaluaciones.
+
+Agrega Notas para cada estudiante y evaluación.
+
+Ver datos en Angular:
+
+Abre http://localhost:4200/.
+
+En el menú, crea nuevas páginas (Componentes) para listar Estudiantes, Cursos y Notas.
+
+Por ejemplo, un componente ListadoEstudiantes que llame a GET /api/estudiantes/ y muestre los resultados.
+
+Crea formularios simples para agregar o editar datos:
+
+Un formulario para crear un Estudiante enviando POST /api/estudiantes/ con nombre, identificación y fecha de nacimiento.
+
+Similar para Notas: POST /api/notas/ con estudiante, evaluación y calificación.
+
+Consultas y cambios en tiempo real:
+
+Cada vez que agregues un estudiante o una nota, si estás viendo la lista en Angular, recarga para ver el nuevo dato.
+
+Así el flujo es rápido: Admin → Base de datos → API → Angular → Usuario.
+
+Buenas prácticas básicas
+
+Mantener en desarrollo (DEBUG=True) hasta probar todo. Cuando vayas a subir a un servidor real, cambia a DEBUG=False y ajusta ALLOWED_HOSTS a tu dominio.
+
+No subir archivos .env a repositorios públicos. Ahí van tus claves y contraseñas.
+
+Consultar primero en Swagger (/swagger/) si no sabes qué información necesita cada pedido. Ahí se muestran ejemplos fáciles.
+
+Si algo no funciona: revisa si los contenedores Docker siguen activos (docker ps), que la dirección apiUrl en Angular sea correcta y que hayas aplicado migraciones (migrate).
+
+Para el frontend, puedes usar estilos simples (Bootstrap, Tailwind o Angular Material) solo para que los formularios y tablas se vean agradables.
+
+¡Y listo! Ahora tienes todo lo necesario para entender y usar RegistroNotas. Con estos pasos, cualquier persona que tenga nociones básicas de computadora podrá:
+
+Levantar el servidor con Docker.
+
+Crear datos académicos desde el panel de Django.
+
+Ver y manejar esos datos desde el sitio Angular.
+
+Si necesitas ayuda adicional o quieres incluir gráficos y reportes avanzados, solo visita /swagger/ para conocer todos los detalles de la API. ¡Éxito!
 ## Descripción del Proyecto
 Esta API REST permite gestionar el registro de 
 notas de estudiantes. 
