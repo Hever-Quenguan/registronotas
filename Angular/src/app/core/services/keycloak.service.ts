@@ -11,45 +11,45 @@ export class KeycloakService {
     });
   }
 
-  init(): Promise<void> {
-    return new Promise((resolve, reject) => {
-      this.keycloak
-        .init({
-          onLoad: 'login-required',
-          checkLoginIframe: false,
-        })
-        .then((authenticated) => {
-          if (authenticated) {
-            resolve();
-          } else {
-            reject('Not authenticated');
-          }
-        })
-        .catch(reject);
-    });
-  }
+  init(): Promise<void> { 
+    return new Promise((resolve, reject) => { 
+      this.keycloak 
+        .init({ 
+          onLoad: 'login-required', 
+          checkLoginIframe: false, 
+        }) 
+        .then((authenticated) => { 
+          if (authenticated) { 
+            resolve(); 
+          } else { 
+            reject('Not authenticated'); 
+          } 
+        }) 
+        .catch(reject); 
+    }); 
+  } 
 
-  getToken(): string {
-    return this.keycloak.token!;
-  }
+  getToken(): string { 
+    return this.keycloak.token!; 
+  } 
 
-  logout(): void {
-    this.keycloak.logout();
-  }
+  logout(): void { 
+    this.keycloak.logout(); 
+  } 
 
-  getUsername(): string {
-    return this.keycloak.tokenParsed?.preferred_username || '';
-  }
+  getUsername(): string { 
+    return this.keycloak.tokenParsed?.preferred_username || ''; 
+  } 
 
-  isLoggedIn(): boolean {
-    return !!this.keycloak.token;
-  }
+  isLoggedIn(): boolean { 
+    return !!this.keycloak.token; 
+  } 
 
-  updateToken(): Promise<boolean> {
-    return this.keycloak.updateToken(70);
-  }
+  updateToken(): Promise<boolean> { 
+    return this.keycloak.updateToken(70); 
+  } 
 
-  get instance(): InstanceType<typeof Keycloak> {
-    return this.keycloak;
-  }
-}
+  get instance(): InstanceType<typeof Keycloak> { 
+    return this.keycloak; 
+  } 
+} 
