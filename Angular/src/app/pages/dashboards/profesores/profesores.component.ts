@@ -19,57 +19,57 @@ export class ProfesoresComponent implements OnInit {
 
   constructor(private profService: ProfesoresService) {}
 
-  ngOnInit(): void {
-    this.cargarProfesores();
+  ngOnInit(): void { 
+    this.cargarProfesores(); 
+  } 
+
+  cargarProfesores() { 
+    this.profService.getProfesores().subscribe(data => this.profesores = data); 
+  } 
+
+  guardarProfesor() { 
+    if (this.editando && this.profesorEditandoId !== null) { 
+      this.profService.updateProfesor(this.profesorEditandoId, this.profesor).subscribe(() => { 
+        this.resetFormulario(); 
+        this.cargarProfesores(); 
+      }); 
+    } else { 
+      this.profService.addProfesor(this.profesor).subscribe(() => { 
+        this.resetFormulario(); 
+        this.cargarProfesores(); 
+      }); 
+    } 
+  } 
+
+  editar(prof: Profesor) { 
+    this.profesor = { ...prof }; 
+    this.editando = true; 
+    this.profesorEditandoId = Number(prof.id ?? prof.numdoc); 
   }
 
-  cargarProfesores() {
-    this.profService.getProfesores().subscribe(data => this.profesores = data);
-  }
+  eliminar(prof: Profesor) { 
+    if (confirm('¿Eliminar este profesor?')) { 
+      const id = Number(prof.id ?? prof.numdoc); 
+      this.profService.deleteProfesor(id).subscribe(() => this.cargarProfesores()); 
+    } 
+  } 
 
-  guardarProfesor() {
-    if (this.editando && this.profesorEditandoId !== null) {
-      this.profService.updateProfesor(this.profesorEditandoId, this.profesor).subscribe(() => {
-        this.resetFormulario();
-        this.cargarProfesores();
-      });
-    } else {
-      this.profService.addProfesor(this.profesor).subscribe(() => {
-        this.resetFormulario();
-        this.cargarProfesores();
-      });
-    }
-  }
+  resetFormulario() { 
+    this.profesor = this.resetProfesor(); 
+    this.editando = false; 
+    this.profesorEditandoId = null; 
+  } 
 
-  editar(prof: Profesor) {
-    this.profesor = { ...prof };
-    this.editando = true;
-    this.profesorEditandoId = Number(prof.id ?? prof.numdoc);
-  }
-
-  eliminar(prof: Profesor) {
-    if (confirm('¿Eliminar este profesor?')) {
-      const id = Number(prof.id ?? prof.numdoc);
-      this.profService.deleteProfesor(id).subscribe(() => this.cargarProfesores());
-    }
-  }
-
-  resetFormulario() {
-    this.profesor = this.resetProfesor();
-    this.editando = false;
-    this.profesorEditandoId = null;
-  }
-
-  resetProfesor(): Profesor {
+  resetProfesor(): Profesor { 
     return {
-      nombre: '',
-      apellido: '',
-      correo: '',
-      direccion: '',
-      telefono: '',
-      tipodoc: 0,
-      numdoc: '',
-      especialidad: ''
+      nombre: '', 
+      apellido: '', 
+      correo: '', 
+      direccion: '', 
+      telefono: '', 
+      tipodoc: 0, 
+      numdoc: '', 
+      especialidad: '' 
     };
   }
 }
