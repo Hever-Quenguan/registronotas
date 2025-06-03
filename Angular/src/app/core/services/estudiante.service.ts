@@ -1,19 +1,8 @@
-// core/services/estudiantes.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-export interface Estudiante {
-  id?: number;
-  nombre: string;
-  apellido: string;
-  correo: string;
-  direccion: string;
-  telefono: string;
-  tipodoc: string;
-  numdoc: string;
-  fecna: string;
-}
+import { Estudiante } from 'src/app/model/estudiantes-model'; // Importa el modelo
 
 @Injectable({ providedIn: 'root' })
 export class EstudiantesService {
@@ -35,5 +24,8 @@ export class EstudiantesService {
 
   deleteEstudiante(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}${id}/`);
+  }
+  getEstudianteById(id: number): Observable<Estudiante> {
+    return this.http.get<Estudiante>(`${this.apiUrl}${id}/`);
   }
 }

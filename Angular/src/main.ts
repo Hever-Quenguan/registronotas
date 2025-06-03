@@ -22,14 +22,29 @@ const keycloakService = new KeycloakService();
 
 // Inicializar Keycloak antes del arranque de la app
 keycloakService.init().then(() => {
-  // Configurar refresco automático del token cada 60 segundos
+  // Obtener el nombre de usuario desde el token
+  const username = keycloakService.getUsername();
+
+  const roles = keycloakService.getUserRole();
+  const email = keycloakService.getEmail();
+  // Mostrar mensaje en consola
+  console.log(`¡BIENVENIDO ${username.toUpperCase()}!`);
+  console.log(`¡BIENVENIDO ${roles}!`);
+  console.log(`¡Email ${email}!`);
+
+  localStorage.setItem('Rol', `${roles}`);
+  localStorage.setItem('email', `${email}`);
+  // Guardar mensaje en localStorage para mostrar en el frontend
+  //localStorage.setItem('bienvenida', `¡Bienvenido ${username}!`);
+
+  // Refrescar token cada 60 segundos
   setInterval(() => {
     keycloakService.updateToken().catch(() => {
       console.warn('No se pudo actualizar el token');
     });
   }, 60000);
 
-  // Bootstrap de la app
+  // Bootstrap de la aplicación
   bootstrapApplication(AppComponent, {
     providers: [
       provideHttpClient(),

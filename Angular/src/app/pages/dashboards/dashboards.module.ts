@@ -14,6 +14,8 @@ import { CursosComponent } from './cursos/curso.component';
 import { ClasesComponent } from './clases/clases.component';
 import { EvaluacionesComponent } from './evaluacion/evaluacion.component';
 import { NotasComponent } from './notas/notas.component';
+import { ClasesprofesorComponent } from './clasesprofesor/clasesprofesor.component';
+import { NotasestudianteComponent } from './notasestudiantes/notasestudiante.component';
 
 @NgModule({
   imports: [
@@ -24,11 +26,14 @@ import { NotasComponent } from './notas/notas.component';
     CursosComponent,
     ClasesComponent,
     EvaluacionesComponent,
+    ClasesprofesorComponent,
     NotasComponent,
+    NotasestudianteComponent,
     PagetitleComponent ,
     GoogleMapsModule,
     NgbNavModule,
     ReactiveFormsModule,
+  
     PaginationModule.forRoot() 
     
   ],

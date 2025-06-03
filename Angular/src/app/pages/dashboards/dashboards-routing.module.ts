@@ -8,6 +8,8 @@ import { CursosComponent } from './cursos/curso.component';
 import { ClasesComponent } from './clases/clases.component';
 import { EvaluacionesComponent } from './evaluacion/evaluacion.component';
 import { NotasComponent } from './notas/notas.component';
+import { ClasesprofesorComponent } from './clasesprofesor/clasesprofesor.component';
+import { NotasestudianteComponent } from './notasestudiantes/notasestudiante.component';
 
 const routes: Routes = [
     {
@@ -40,6 +42,15 @@ const routes: Routes = [
         path: 'notas',
         component: NotasComponent
     },
+     {
+        path: 'clasesprofesor',
+        component: ClasesprofesorComponent
+    },
+     {
+        path: 'notasestudiantes',
+        component: NotasestudianteComponent
+    },
+
 ];
 
 @NgModule({

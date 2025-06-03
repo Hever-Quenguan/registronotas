@@ -60,4 +60,11 @@ export class EvaluacionesService {
       )
     );
   }
+    getEvaluacionById(id: number): Observable<Evaluacion> {
+    return from(this.getHeaders()).pipe(
+      switchMap(headers =>
+        this.http.get<Evaluacion>(`${this.apiUrl}/evaluacion/${id}/`, { headers })
+      )
+    );
+  }
 }

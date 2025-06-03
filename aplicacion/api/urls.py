@@ -3,6 +3,8 @@ from .views import DocumentoRegistrationView, DocumentoDetailView, CursoRegistra
 from .views import EstudiantesRegistrationView, EstudiantesDetailView, ProfesorRegistrationView, ProfesorDetailView
 from .views import ClaseRegistrationView, ClaseDetailView, EvaluacionRegistrationView, EvaluacionDetailView
 from .views import NotaRegistrationView, NotaDetailView, AsistenciaRegistrationView, AsistenciaDetailView
+from .views import ProfesorMeView
+from .views import EstudianteMeView
 
 from django.conf import settings
 from django.conf.urls.static import static
@@ -39,4 +41,10 @@ urlpatterns = [
     # Asistencia
     path('register/asistencia/', AsistenciaRegistrationView.as_view(), name='asistencia-register'),
     path('asistencia/<int:pk>/', AsistenciaDetailView.as_view(), name='asistencia-detail'),  # Ruta de detalle
+
+    #PROFESORME
+    path('profesor/me/', ProfesorMeView.as_view(), name='profesor-me'),
+
+    path('estudiante/me/', EstudianteMeView.as_view(), name='estudiante-me'),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

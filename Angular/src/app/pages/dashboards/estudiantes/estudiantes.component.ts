@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { EstudiantesService, Estudiante } from 'src/app/core/services/estudiante.service';
+import { EstudiantesService} from 'src/app/core/services/estudiante.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Estudiante} from 'src/app/model/estudiantes-model';
 
 import { HttpClientModule } from '@angular/common/http';
 

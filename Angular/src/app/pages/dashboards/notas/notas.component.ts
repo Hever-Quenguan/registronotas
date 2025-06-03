@@ -4,8 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { NotaService } from 'src/app/core/services/notas.service';
+import { EstudiantesService } from 'src/app/core/services/estudiante.service';
+
 import { Nota } from 'src/app/model/notas-model';
-import { Estudiante } from 'src/app/core/services/estudiante.service';
+import { Estudiante } from 'src/app/model/estudiantes-model';
 import { Evaluacion } from 'src/app/model/evaluacion-model';
 
 @Component({
@@ -17,12 +19,17 @@ import { Evaluacion } from 'src/app/model/evaluacion-model';
 export class NotasComponent implements OnInit {
   notas: Nota[] = [];
   nota: Nota = this.resetNota();
+
   estudiantes: Estudiante[] = [];
   evaluaciones: Evaluacion[] = [];
-  editando: boolean = false;
+
+  editando = false;
   notaEditandoId: number | null = null;
 
-  constructor(private notaService: NotaService) {}
+  constructor(
+    private notaService: NotaService,
+    private estudiantesService: EstudiantesService
+  ) {}
 
   ngOnInit(): void {
     this.cargarNotas();
@@ -35,7 +42,7 @@ export class NotasComponent implements OnInit {
   }
 
   cargarEstudiantes() {
-    this.notaService.getEstudiantes().subscribe(data => this.estudiantes = data);
+    this.estudiantesService.getEstudiantes().subscribe(data => this.estudiantes = data);
   }
 
   cargarEvaluaciones() {
@@ -81,7 +88,7 @@ export class NotasComponent implements OnInit {
     return {
       estudiante: 0,
       evaluacion: 0,
-      calificacion: 0
+      calificacion: 0,
     };
   }
 }

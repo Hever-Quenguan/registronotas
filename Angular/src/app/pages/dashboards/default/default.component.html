@@ -1,6 +1,9 @@
 <div class="container-fluid mt-4">
+  <!-- Encabezado de bienvenida -->
   <div class="page-title-box d-flex align-items-center justify-content-between">
-    <h4 class="mb-0 font-size-24 text-primary fw-bold">¡Bienvenido a tu aplicacion de notas! 🎉</h4>
+    <h4 class="mb-0 font-size-24 text-primary fw-bold">
+      ¡Bienvenido a tu aplicación de notas! 🎉
+    </h4>
     <div class="page-title-right">
       <ol class="breadcrumb m-0">
         <li class="breadcrumb-item"><a href="#">Inicio</a></li>
@@ -9,8 +12,18 @@
     </div>
   </div>
 
-  <p class="text-muted mt-2 mb-4 fs-5">Selecciona lo que deseas hacer hoy:</p>
+  <!-- Mensaje personalizado con ícono -->
+  <div *ngIf="username && rol" class="alert alert-light border-start border-4 border-primary shadow-sm d-flex align-items-center gap-2 mt-3">
+    <i class="mdi mdi-account-check-outline fs-3 text-primary"></i>
+    <div class="fs-5">
+      <strong>¡Hola {{ username }}!</strong> Eres <span class="text-primary fw-semibold">{{ rol }}</span>.
+    </div>
+  </div>
 
+  <!-- Subtítulo -->
+  <p class="text-muted mt-4 mb-4 fs-5">Selecciona lo que deseas hacer hoy:</p>
+
+  <!-- Tarjetas de acciones -->
   <div class="row g-4">
     <ng-container *ngFor="let item of menuItems">
       <div class="col-12 col-sm-6 col-lg-4">

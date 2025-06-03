@@ -51,4 +51,13 @@ export class ProfesoresService {
       )
     );
   }
+  getProfesorById(id: number): Observable<Profesor> {
+  return from(this.getHeaders()).pipe(
+    switchMap(headers =>
+      this.http.get<Profesor>(`${this.apiUrl}/profesor/${id}/`, { headers })
+    )
+  );
 }
+
+}
+

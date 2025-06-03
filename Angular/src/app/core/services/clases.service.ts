@@ -69,4 +69,11 @@ export class ClasesService {
       )
     );
   }
+    getClasesById(id: number): Observable<Clase> {
+    return from(this.getHeaders()).pipe(
+      switchMap(headers =>
+        this.http.get<Clase>(`${this.apiUrl}/clase/${id}/`, { headers })
+      )
+    );
+  }
 }

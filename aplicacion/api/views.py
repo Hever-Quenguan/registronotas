@@ -446,3 +446,35 @@ class AsistenciaDetailView(APIView):
             return Response({"message": "Asistencia no encontrada"}, status=status.HTTP_404_NOT_FOUND)
         serializer = AsistenciaSerializer(asistencia)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+@extend_schema(tags=['Profesor'])
+class ProfesorMeView(APIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = ProfesorSerializer
+
+    def get(self, request):
+        email = request.user.email  # Email del token de Keycloak
+
+        try:
+            profesor = Profesor.objects.get(correo=email)
+        except Profesor.DoesNotExist:
+            return Response({"message": "Profesor no encontrado"}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = ProfesorSerializer(profesor)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+@extend_schema(tags=['Estudiante'])
+class EstudianteMeView(APIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = EstudiantesSerializer
+
+    def get(self, request):
+        email = request.user.email  # Email obtenido desde el token de Keycloak
+
+        try:
+            estudiante = Estudiantes.objects.get(correo=email)
+        except Estudiantes.DoesNotExist:
+            return Response({"message": "Estudiante no encontrado"}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = EstudiantesSerializer(estudiante)
+        return Response(serializer.data, status=status.HTTP_200_OK)

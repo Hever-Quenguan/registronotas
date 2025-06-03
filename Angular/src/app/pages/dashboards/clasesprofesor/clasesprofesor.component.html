@@ -1,0 +1,38 @@
+<div class="container m-2">
+  <div class="row">
+    <div class="col-12 text-center h3">
+      GESTIÓN DE CLASES
+    </div>
+  </div> 
+  <!-- Tabla de clases -->
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover align-middle">
+      <thead class="table-light">
+        <tr>
+          <th>ID Clase</th> <!-- Nueva columna ID -->
+          <th>Curso</th>
+          <th>Profesor</th>
+          <th>Correo</th>
+          <th>Horario</th>
+          <th>Semestre</th>
+          <!-- Se quita la columna Acciones -->
+        </tr>
+      </thead>
+      <tbody *ngIf="clases.length > 0; else sinClases">
+        <tr *ngFor="let cl of clases">
+          <td>{{ cl.id }}</td> <!-- Mostrar el id de la clase -->
+          <td>{{ cursosMap.get(cl.curso) || 'Cargando...' }}</td>
+          <td>{{ profesoresMap.get(cl.profesor)?.nombreCompleto || 'Cargando...' }}</td>
+          <td>{{ profesoresMap.get(cl.profesor)?.correo || 'Cargando...' }}</td>
+          <td>{{ cl.horario }}</td>
+          <td>{{ cl.semestre }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <ng-template #sinClases>
+      <tr>
+        <td colspan="6" class="text-center">No hay clases registradas</td> <!-- Se pone colspan=6 porque ahora hay 6 columnas -->
+      </tr>
+    </ng-template>
+  </div>
+</div>

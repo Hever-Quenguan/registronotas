@@ -50,4 +50,13 @@ export class CursosService {
       )
     );
   }
+  getCursoById(id: number): Observable<Curso> {
+  return from(this.getHeaders()).pipe(
+    switchMap(headers =>
+      this.http.get<Curso>(`${this.apiUrl}/curso/${id}/`, { headers })
+    )
+  );
+}
+
+
 }

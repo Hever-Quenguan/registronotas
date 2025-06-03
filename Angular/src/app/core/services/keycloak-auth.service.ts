@@ -17,9 +17,11 @@ export class KeycloakAuthService {
     const now = Date.now();
 
     if (this.accessToken && now < this.tokenExpiresAt) {
+      console.log('AUTENTICADO LOGEO',this.accessToken);
       return this.accessToken;
+      
     }
-
+    
     const body = new HttpParams()
       .set('grant_type', 'client_credentials')
       .set('client_id', this.clientId)

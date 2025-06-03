@@ -1,0 +1,95 @@
+<div class="container m-3">
+  <div class="row">
+    <div class="col-12 text-center h3 mb-4">
+      GESTIÓN DE NOTAS
+    </div>
+  </div>
+
+  <div *ngIf="notas.length > 0; else sinNotas">
+    <div class="card mb-4" *ngFor="let n of notas">
+      <div class="card-header bg-primary text-white">
+        Nota de {{ estudiantesMap.get(n.estudiante)?.nombreCompleto || 'Estudiante desconocido' }}
+      </div>
+      <div class="card-body">
+        <!-- Tabla de nota -->
+        <table class="table table-bordered mb-3">
+          <thead class="table-light">
+            <tr>
+              <th>Estudiante</th>
+              <th>Calificación</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{ estudiantesMap.get(n.estudiante)?.nombreCompleto }}</td>
+              <td>{{ n.calificacion }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Evaluación asociada -->
+        <h5 class="text-secondary">Evaluación asociada</h5>
+        <table class="table table-sm table-bordered mb-3">
+          <thead class="table-light">
+            <tr>
+              <th>ID</th>
+              <th>Título</th>
+              <th>Descripción</th>
+              <th>Ponderación</th>
+              <th>Clase (ID)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{ evaluacionesMap.get(n.evaluacion)?.id }}</td>
+              <td>{{ evaluacionesMap.get(n.evaluacion)?.titulo }}</td>
+              <td>{{ evaluacionesMap.get(n.evaluacion)?.descripcion }}</td>
+              <td>{{ evaluacionesMap.get(n.evaluacion)?.ponderacion }}</td>
+              <td>{{ evaluacionesMap.get(n.evaluacion)?.clase }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Clase, curso y profesor -->
+        <h6 class="text-secondary">Clase asociada</h6>
+        <ng-container *ngIf="evaluacionesMap.get(n.evaluacion)?.clase as claseId">
+          <ng-container *ngIf="clasesMap.get(claseId) as clase">
+            <table class="table table-sm table-bordered">
+              <thead class="table-light">
+                <tr>
+                  <th>ID</th>
+                  <th>Horario</th>
+                  <th>Semestre</th>
+                  <th>Curso</th>
+                  <th>Profesor</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{{ clase.id }}</td>
+                  <td>{{ clase.horario }}</td>
+                  <td>{{ clase.semestre }}</td>
+                  <td>{{ cursosMap.get(clase.curso)?.nombre || 'Sin datos' }}</td>
+                  <td>
+                    {{
+                      profesoresMap.get(clase.profesor)?.nombre
+                        + ' ' +
+                      profesoresMap.get(clase.profesor)?.apellido
+                        || 'Sin datos'
+                    }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </ng-container>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #sinNotas>
+    <div class="alert alert-info text-center" role="alert">
+      No hay notas registradas
+    </div>
+  </ng-template>
+</div>

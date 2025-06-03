@@ -5,8 +5,12 @@ import { switchMap } from 'rxjs/operators';
 import { KeycloakService } from './keycloak.service';
 
 import { Nota } from '../../model/notas-model';
-import { Estudiante } from './estudiante.service';
 import { Evaluacion } from '../../model/evaluacion-model';
+import { Estudiante } from 'src/app/model/estudiantes-model';
+import { Clase } from 'src/app/model/clases-model';
+import { Profesor } from 'src/app/model/profesores-model';
+import { Curso } from 'src/app/model/curso-model';
+
 
 @Injectable({ providedIn: 'root' })
 export class NotaService {
@@ -69,4 +73,26 @@ export class NotaService {
       )
     );
   }
+
+    getClases(): Observable<Clase[]> {
+      return from(this.getHeaders()).pipe(
+        switchMap(headers =>
+          this.http.get<Clase[]>(`${this.apiUrl}/register/clase/`, { headers })
+        )
+      );
+    }
+     getCursos(): Observable<Curso[]> {
+    return from(this.getHeaders()).pipe(
+      switchMap(headers =>
+        this.http.get<Curso[]>(`${this.apiUrl}/register/curso/`, { headers })
+      )
+    );
+  }
+  getProfesores(): Observable<Profesor[]> {
+      return from(this.getHeaders()).pipe(
+        switchMap(headers =>
+          this.http.get<Profesor[]>(`${this.apiUrl}/register/profesor/`, { headers })
+        )
+      );
+    }
 }
