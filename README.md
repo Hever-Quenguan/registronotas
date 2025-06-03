@@ -18,7 +18,6 @@
 7. [Documentación de la API](#documentación-de-la-api)
 8. [Estructura de las entidades](#estructura-de-las-entidades)
 9. [Desarrollo y migraciones](#desarrollo-y-migraciones)
-10. [Contacto y soporte](#contacto-y-soporte)
 
 ---
 
