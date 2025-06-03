@@ -22,31 +22,31 @@ export class EvaluacionesComponent implements OnInit {
 
   constructor(private evaluacionService: EvaluacionesService) {}
 
-  ngOnInit(): void {
-    this.cargarEvaluaciones();
-    this.cargarClases();
-  }
+  ngOnInit(): void { 
+    this.cargarEvaluaciones();  
+    this.cargarClases();  
+  } 
 
-  cargarEvaluaciones() {
-    this.evaluacionService.getEvaluaciones().subscribe(data => this.evaluaciones = data);
-  }
+  cargarEvaluaciones() {  
+    this.evaluacionService.getEvaluaciones().subscribe(data => this.evaluaciones = data);  
+  }  
 
-  cargarClases() {
-    this.evaluacionService.getClases().subscribe(data => this.clases = data);
-  }
+  cargarClases() {  
+    this.evaluacionService.getClases().subscribe(data => this.clases = data); 
+  } 
 
-  guardarEvaluacion() {
-    this.evaluacion.clase = Number(this.evaluacion.clase);
+  guardarEvaluacion() { 
+    this.evaluacion.clase = Number(this.evaluacion.clase); 
 
-    if (this.editando && this.evaluacionEditandoId !== null) {
-      this.evaluacionService.updateEvaluacion(this.evaluacionEditandoId, this.evaluacion).subscribe(() => {
-        this.resetFormulario();
-        this.cargarEvaluaciones();
+    if (this.editando && this.evaluacionEditandoId !== null) { 
+      this.evaluacionService.updateEvaluacion(this.evaluacionEditandoId, this.evaluacion).subscribe(() => { 
+        this.resetFormulario(); 
+        this.cargarEvaluaciones(); 
       });
     } else {
       this.evaluacionService.addEvaluacion(this.evaluacion).subscribe(() => {
-        this.resetFormulario();
-        this.cargarEvaluaciones();
+        this.resetFormulario(); 
+        this.cargarEvaluaciones(); 
       });
     }
   }

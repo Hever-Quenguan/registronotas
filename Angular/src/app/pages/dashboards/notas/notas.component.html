@@ -44,33 +44,33 @@
     </form>
   </div>
 
-  <!-- Tabla de notas -->
-  <div class="table-responsive">
-    <table class="table table-bordered table-hover align-middle">
-      <thead class="table-light">
+  <!-- Tabla de notas --> 
+  <div class="table-responsive"> 
+    <table class="table table-bordered table-hover align-middle"> 
+      <thead class="table-light"> 
         <tr>
-          <th>Estudiante</th>
-          <th>Evaluación</th>
-          <th>Calificación</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody *ngIf="notas.length > 0; else sinNotas">
-        <tr *ngFor="let n of notas">
-          <td>{{ n.estudiante }}</td>
-          <td>{{ n.evaluacion }}</td>
-          <td>{{ n.calificacion }}</td>
-          <td>
-            <button class="btn btn-sm btn-warning me-2" (click)="editar(n)">Editar</button>
-            <button class="btn btn-sm btn-danger" (click)="eliminar(n)">Eliminar</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <ng-template #sinNotas>
-      <tr>
-        <td colspan="4" class="text-center">No hay notas registradas</td>
-      </tr>
-    </ng-template>
-  </div>
-</div>
+          <th>Estudiante</th> 
+          <th>Evaluación</th> 
+          <th>Calificación</th> 
+          <th>Acciones</th>  
+        </tr>  
+      </thead> 
+      <tbody *ngIf="notas.length > 0; else sinNotas"> 
+        <tr *ngFor="let n of notas"> 
+          <td>{{ n.estudiante }}</td> 
+          <td>{{ n.evaluacion }}</td> 
+          <td>{{ n.calificacion }}</td> 
+          <td> 
+            <button class="btn btn-sm btn-warning me-2" (click)="editar(n)">Editar</button> 
+            <button class="btn btn-sm btn-danger" (click)="eliminar(n)">Eliminar</button> 
+          </td> 
+        </tr> 
+      </tbody> 
+    </table> 
+    <ng-template #sinNotas> 
+      <tr> 
+        <td colspan="4" class="text-center">No hay notas registradas</td> 
+      </tr> 
+    </ng-template> 
+  </div> 
+</div> 
