@@ -11,39 +11,39 @@ import { NotasComponent } from './notas/notas.component';
 
 const routes: Routes = [
     {
-        path: 'default',
-        component: DefaultComponent
+        path: 'default', 
+        component: DefaultComponent 
     },
 
      {
-        path: 'estudiantes',
-        component: EstudiantesComponent
+        path: 'estudiantes', 
+        component: EstudiantesComponent 
     },
     {
-        path: 'profesores',
-        component: ProfesoresComponent
+        path: 'profesores', 
+        component: ProfesoresComponent 
     },
 
     {
-        path: 'cursos',
-        component: CursosComponent
+        path: 'cursos',  
+        component: CursosComponent 
     },
     {
-        path: 'clases',
-        component: ClasesComponent
+        path: 'clases', 
+        component: ClasesComponent 
     },
     {
-        path: 'evaluacion',
-        component: EvaluacionesComponent
+        path: 'evaluacion', 
+        component: EvaluacionesComponent 
     },
     {
-        path: 'notas',
-        component: NotasComponent
+        path: 'notas',  
+        component: NotasComponent 
     },
 ];
 
-@NgModule({
-    imports: [RouterModule.forChild(routes)],
-    exports: [RouterModule]
+@NgModule({ 
+    imports: [RouterModule.forChild(routes)], 
+    exports: [RouterModule] 
 })
 export class DashboardsRoutingModule {}
