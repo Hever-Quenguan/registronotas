@@ -4,23 +4,24 @@ RegistroNotas es una aplicación para gestionar calificaciones académicas de ma
 
 Contenido
 
-¿Qué es RegistroNotas?
+1.¿Qué es RegistroNotas?
 
-Tecnologías principales
+2.Tecnologías principales
 
-Estructura general
+3.Estructura general
 
-Cómo empezar
+4.Cómo empezar
 
-Preparar el servidor (backend)
+4.1 Preparar el servidor (backend)
 
-Preparar la interfaz (frontend)
+4.2 Preparar la interfaz (frontend)
 
-Cómo usar la aplicación
+5.Cómo usar la aplicación
 
-Buenas prácticas básicas
+6.Buenas prácticas básicas
 
-¿Qué es RegistroNotas?
+1. ¿Qué es RegistroNotas?
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 RegistroNotas es un sistema que permite:
 
@@ -34,7 +35,8 @@ Usar la aplicación en una red local o desplegarla en un servidor real.
 
 La idea es que cualquier institución educativa pequeña (colegio, instituto, academia) pueda llevar el control de sus calificaciones de forma ordenada.
 
-Tecnologías principales
+2. Tecnologías principales
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Backend (servidor):
 
@@ -50,7 +52,8 @@ Angular (lenguaje TypeScript)
 
 Interfaz moderna con formularios y tablas fáciles de usar
 
-Estructura general
+3.Estructura general
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Al descomprimir el proyecto, verás algo así:
 
@@ -68,10 +71,10 @@ Dockerfile y docker-compose.yml: permiten levantar el servidor y la base de dato
 
 Angular/: contiene el sitio web que se conecta al servidor para mostrar los datos y permitir al usuario registrar información.
 
-Cómo empezar
+4.Cómo empezar
 
-Preparar el servidor (backend)
-
+4.1 Preparar el servidor (backend)
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Instalar Docker y Docker Compose (si no los tienes).
 
 Sigue las instrucciones en https://docs.docker.com/get-docker/
@@ -126,7 +129,8 @@ Verás diferentes opciones: Estudiantes, Profesores, Cursos, Clases, Evaluacione
 
 O visita http://localhost:8000/swagger/ para ver una lista de direcciones (endpoints) que ofrece el servidor. Ahí puedes probar enviar datos y ver respuestas.
 
-Preparar la interfaz (frontend)
+4.2  Preparar la interfaz (frontend)
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Instalar Node.js y npm (si no los tienes):
 
@@ -161,7 +165,8 @@ Al terminar de compilar, abre tu navegador en http://localhost:4200/.
 
 Verás una página con menús que, por ahora, muestran ejemplos. Usaremos esto para crear páginas de Estudiantes, Cursos, Notas, etc.
 
-Cómo usar la aplicación
+5. Cómo usar la aplicación
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 1. Conocer las áreas principales
 
@@ -211,7 +216,8 @@ Cada vez que agregues un estudiante o una nota, si estás viendo la lista en Ang
 
 Así el flujo es rápido: Admin → Base de datos → API → Angular → Usuario.
 
-Buenas prácticas básicas
+6. Buenas prácticas básicas
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Mantener en desarrollo (DEBUG=True) hasta probar todo. Cuando vayas a subir a un servidor real, cambia a DEBUG=False y ajusta ALLOWED_HOSTS a tu dominio.
 
@@ -232,6 +238,7 @@ Crear datos académicos desde el panel de Django.
 Ver y manejar esos datos desde el sitio Angular.
 
 Si necesitas ayuda adicional o quieres incluir gráficos y reportes avanzados, solo visita /swagger/ para conocer todos los detalles de la API. ¡Éxito!
+
 ## Descripción del Proyecto
 Esta API REST permite gestionar el registro de 
 notas de estudiantes. 
